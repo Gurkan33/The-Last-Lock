@@ -1,3 +1,4 @@
+#Installerar simple_Colors! -----------------------------
 import subprocess
 import sys
 
@@ -10,7 +11,7 @@ except ImportError:
     print("simple_colors inte installerat. Installerar nu...")
     install_package("simple_colors")
 
-
+#--------------------------------------------------------
 
 import TextOchGubbar
 import simple_colors 
