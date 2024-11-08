@@ -1,4 +1,1 @@
-import TextOchGubbar
-
-print(TextOchGubbar.rubrik)
-print("Hej")
+print("hej")
