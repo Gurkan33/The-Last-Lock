@@ -1,2 +1,1 @@
-print("Home")
-print("Hello")
+print("Hej")
