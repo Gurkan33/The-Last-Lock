@@ -1,7 +1,15 @@
 import random as rand
+import json
 
-items = ["sword", "dager", "knife"]
+with open("items.json") as file:
+    dict_of_items = json.load(file)
+
 rareties = ["Common", "Rare", "Epic", "Legendary", "Mythic"]
+items = list(dict_of_items.keys())
+inventory = []
+
+print(items)
+print(len(items))
 
 def item_funk(item, rarity, dmg):
     item_stats = {
@@ -33,8 +41,7 @@ def generate_item():
         dmg = dmg + rand.randint(9, 13)
     
     return item_funk(item, rarity, dmg)
-    
-inventory = []
+
 
 for i in range(1, 5):
     test = generate_item()
