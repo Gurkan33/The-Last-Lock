@@ -1,18 +1,24 @@
 {
-    "sword": {
+    "1sword": {
         "name": "sword",
         "type": "weapon",
         "base_dmg": 0
     },
-    "dagger": {
+    "1dagger": {
         "name": "dagger",
         "type": "weapon",
         "base_dmg": 0
     },
-    "knife": {
+    "1knife": {
         "name": "knife",
         "type": "weapon",
         "base_dmg": 0
+    },
+    "1stick": {
+        "name": "stick",
+        "type": "weapon",
+        "base_dmg": 0     
     }
 
 }
+

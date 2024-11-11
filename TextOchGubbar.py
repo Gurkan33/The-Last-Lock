@@ -21,8 +21,3 @@ player_walk = """
 /|_
  |
 / \ """
-
-# print(rubrik)
-# print(player_Still)
-# print(player_Hands_Up)
-# print(player_walk)
