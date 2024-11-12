@@ -61,19 +61,39 @@ def inventory_Manager():
         print(f"{i+1}. \n {inventory[i]}")
     
     while True:
-        print("""What do you want to do?
+        print("""\n\nWhat do you want to do?
     [1] Equip an item
     [2] Delet an item
     [3] Nothing""")
-        chosen_rout  = input("->")
+        chosen_rout  = input(simple_colors.blue("-->",["bold"]))
         
-        if SystemFunktions.valid_user_choice(chosen_rout, 3) == True:
-            if chosen_rout == "1":
+        if SystemFunktions.valid_user_choice(chosen_rout, 3, "multiChoice") == True:
+
+
+            if chosen_rout == "1": #Equipar ett föremål
                 print("1")
-            if chosen_rout == "2":
-                print("2")
-            if chosen_rout == "3":
-                print("3")
+
+
+
+            if chosen_rout == "2": #Tar bort en item av spelarens val ifrån inventoryt
+                print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
+                for i in range(0, len(inventory)):
+                    print(f"{i+1}. \n {inventory[i]}")
+
+                print("([Any key] to cancel!)\n")
+
+                chosen_item_index = input(simple_colors.blue("-->",["bold"]))
+                if SystemFunktions.valid_user_choice(chosen_item_index, len(inventory), "Your choice isn't in the inventory!"):
+
+                    print(simple_colors.red("Du tog bort ") + simple_colors.magenta(str(inventory[i]),["italic"]) + simple_colors.red(" från ditt invetory!\n"))
+                    del inventory[int(chosen_item_index)-1]
+                    
+                    for i in range(0, len(inventory)):
+                        print(f"{i+1}. \n {inventory[i]}")
+                        
+
+            if chosen_rout == "3": # Break
+                break
         
     
 

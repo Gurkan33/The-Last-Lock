@@ -51,8 +51,8 @@ while True:
     print("   [1] Looka at inventory")
     print("   [2] Chose a door")
     
-    chosen_rout = input("->")
-    if SystemFunktions.valid_user_choice(chosen_rout, 2) == True:
+    chosen_rout = input(simple_colors.blue("-->",["bold"]))
+    if SystemFunktions.valid_user_choice(chosen_rout, 2, "multiChoice") == True:
         if chosen_rout == "1":
             print(TextOchGubbar.inventory)
             Funktions.inventory_Manager()
