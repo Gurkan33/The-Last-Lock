@@ -29,6 +29,9 @@ print(simple_colors.red("""Your now locked in a prison and have to fight your wa
 
 player_Name = SystemFunktions.valid_character_name() #Spelare skriver in sitt namn!
 
+player = Funktions.player()
+player.name = player_Name
+
 print(simple_colors.red("Ohh! Nice name " + simple_colors.blue(str(player_Name)) + "!\n"))
 
 print(simple_colors.red("Now " + simple_colors.blue(str(player_Name))) + simple_colors.red(" its time to make your first move!"))
