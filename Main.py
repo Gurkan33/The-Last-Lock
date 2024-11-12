@@ -64,6 +64,3 @@ while True:
             #print player statistics
 
        # elif chosen_rout == "2":
-
-        
-    
