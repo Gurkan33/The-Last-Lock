@@ -82,17 +82,21 @@ class player:
         name_print = f"""
 Name: {self.name} 
 Difficulty: {self.difficulty}
-Equiped item: {self.equiped}
-Inventory: \n{"\n".join(str(item_class) for item_class in inventory)}""" 
+
+Equiped item: 
+{self.equiped}
+
+Inventory: \n{"\n".join(f"{index+1}.\n{item_class}" for index, item_class in enumerate(inventory))}""" 
         return name_print
 
+print(player())
 
 #------------------------------------------------------#
 #Inventory manager
 
 def inventory_Manager():
     for i in range(0, len(inventory)):
-        print(f"{i+1}. \n {inventory[i]}")
+        print(f"{i+1}. \n{inventory[i]}")
     
     while True:
         print("""\n\nWhat do you want to do?
@@ -112,7 +116,7 @@ def inventory_Manager():
             if chosen_rout == "2": #Tar bort en item av spelarens val ifrån inventoryt
                 print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
                 for i in range(0, len(inventory)):
-                    print(f"{i+1}. \n {inventory[i]}")
+                    print(f"{i+1}. \n{inventory[i]}")
 
                 print("([Any key] to cancel!)\n")
 
@@ -123,7 +127,7 @@ def inventory_Manager():
                     del inventory[int(chosen_item_index)-1]
                     
                     for i in range(0, len(inventory)):
-                        print(f"{i+1}. \n {inventory[i]}")
+                        print(f"{i+1}. \n{inventory[i]}")
                         
 
             if chosen_rout == "3": # Break
