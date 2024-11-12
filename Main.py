@@ -52,8 +52,9 @@ while True:
     print("   [2] Chose a door")
     
     chosen_rout = input("->")
-    if chosen_rout == "1" or chosen_rout == "2":
+    if SystemFunktions.valid_user_choice(chosen_rout, 2) == True:
         if chosen_rout == "1":
+            print(TextOchGubbar.inventory)
             Funktions.inventory_Manager()
             #print player statistics
 

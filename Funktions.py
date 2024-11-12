@@ -1,6 +1,7 @@
 import random as rand
 import json
 import simple_colors
+import SystemFunktions
 
 #------------------------------------------------------#
 
@@ -58,11 +59,21 @@ for i in range(1, 5):
 def inventory_Manager():
     for i in range(0, len(inventory)):
         print(f"{i+1}. \n {inventory[i]}")
-    print("""
-What do you want to do?
+    
+    while True:
+        print("""What do you want to do?
     [1] Equip an item
     [2] Delet an item
     [3] Nothing""")
-
+        chosen_rout  = input("->")
+        
+        if SystemFunktions.valid_user_choice(chosen_rout, 3) == True:
+            if chosen_rout == "1":
+                print("1")
+            if chosen_rout == "2":
+                print("2")
+            if chosen_rout == "3":
+                print("3")
+        
     
 
