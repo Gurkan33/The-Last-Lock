@@ -83,10 +83,12 @@ class player:
 Name: {self.name} 
 Difficulty: {self.difficulty}
 
-Equiped item: 
+Equipped item: 
 {self.equiped}
 
-Inventory: \n{"\n".join(f"{index+1}.\n{item_class}" for index, item_class in enumerate(inventory))}""" 
+Inventory: 
+""" + "\n".join(f"{index + 1}.\n{item_class}" for index, item_class in enumerate(inventory))
+        
         return name_print
 
 print(player())
@@ -99,7 +101,7 @@ def inventory_Manager():
         print(f"{i+1}. \n{inventory[i]}")
     
     while True:
-        print("""\n\nWhat do you want to do?
+        print("""\n\n What do you want to do?
     [1] Equip an item
     [2] Delet an item
     [3] Nothing""")
