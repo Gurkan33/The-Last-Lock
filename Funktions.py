@@ -9,7 +9,7 @@ import SystemFunktions
 with open("items.json") as file:
     dict_of_items = json.load(file)
 
-rareties = [simple_colors.black("Common"), simple_colors.blue("Rare"), simple_colors.magenta("Epic"), simple_colors.yellow("Legendary"), "Mythic"]
+rareties = [simple_colors.black("Common"), simple_colors.blue("Rare"), simple_colors.magenta("Epic"), simple_colors.yellow("Legendary"), simple_colors.red("Mythic",["italic","bright"])]
 items_keys = list(dict_of_items.keys())
 items = []
 inventory =[]
@@ -83,10 +83,12 @@ class player:
 Name: {self.name} 
 Difficulty: {self.difficulty}
 
-Equiped item: 
+Equipped item: 
 {self.equiped}
 
-Inventory: \n{"\n".join(f"{index+1}.\n{item_class}" for index, item_class in enumerate(inventory))}""" 
+Inventory: 
+""" + "\n".join(f"{index + 1}.\n{item_class}" for index, item_class in enumerate(inventory))
+        
         return name_print
 
 print(player())
@@ -99,7 +101,7 @@ def inventory_Manager():
         print(f"{i+1}. \n{inventory[i]}")
     
     while True:
-        print("""\n\nWhat do you want to do?
+        print("""\n\n What do you want to do?
     [1] Equip an item
     [2] Delet an item
     [3] Nothing""")
@@ -122,9 +124,9 @@ def inventory_Manager():
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
                 if SystemFunktions.valid_user_choice(chosen_item_index, len(inventory), "Your choice isn't in the inventory!"):
+                    chosen_item_index = int(chosen_item_index)
 
-                    print(simple_colors.red("Du tog bort ") + simple_colors.magenta(str(inventory[i]),["italic"]) + simple_colors.red(" från ditt invetory!\n"))
-                    del inventory[int(chosen_item_index)-1]
+                    print(simple_colors.red("Du tog bort ") + str(inventory.pop(chosen_item_index-1)) + simple_colors.red(" från ditt invetory!\n"))
                     
                     for i in range(0, len(inventory)):
                         print(f"{i+1}. \n{inventory[i]}")
@@ -132,6 +134,3 @@ def inventory_Manager():
 
             if chosen_rout == "3": # Break
                 break
-        
-    
-

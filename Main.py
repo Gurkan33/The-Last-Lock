@@ -32,6 +32,8 @@ player_Name = SystemFunktions.valid_character_name() #Spelare skriver in sitt na
 player = Funktions.player()
 player.name = player_Name
 
+print(player)
+
 print(simple_colors.red("Ohh! Nice name " + simple_colors.blue(str(player_Name)) + "!\n"))
 
 print(simple_colors.red("Now " + simple_colors.blue(str(player_Name))) + simple_colors.red(" its time to make your first move!"))
@@ -50,9 +52,9 @@ while True:
         #spelare får nyckel!
         print("")
 
-    print("Chose what you wish to do!")
-    print("   [1] Looka at inventory")
-    print("   [2] Chose a door")
+    print("""Chose what you wish to do!
+    [1] Looka at inventory
+    [2] Chose a door""")
     
     chosen_rout = input(simple_colors.blue("-->",["bold"]))
     if SystemFunktions.valid_user_choice(chosen_rout, 2, "multiChoice") == True:
@@ -62,6 +64,3 @@ while True:
             #print player statistics
 
        # elif chosen_rout == "2":
-
-        
-    

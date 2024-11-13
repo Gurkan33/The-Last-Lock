@@ -35,7 +35,7 @@ def valid_user_choice(choice, option_amount, message):
                 return True
             else:
                 if message == "multiChoice":
-                    print(simple_colors.red("Invalid input. Your choice ") + simple_colors.blue(str(choice)) + simple_colors.red(" isn't in ")  + simple_colors.blue(str(len_of_list)))
+                    print(simple_colors.red("Invalid input. Your choice ") + simple_colors.blue(str(choice)) + simple_colors.red(" isn't a choice! Choose: ")  + simple_colors.blue(str(len_of_list)))
                 else:
                     print(message)
                 return False
