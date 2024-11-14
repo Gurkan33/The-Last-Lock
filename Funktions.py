@@ -10,14 +10,14 @@ with open("items.json") as file:
     dict_of_items = json.load(file)
 
 rareties = [simple_colors.black("Common"), simple_colors.blue("Rare"), simple_colors.magenta("Epic"), simple_colors.yellow("Legendary"), simple_colors.red("Mythic",["italic","bright"])]
-items_keys = list(dict_of_items.keys())
+items_keys = list(dict_of_items["items1"])
 items = []
 inventory =[]
 name = ""
 difficulty = int(1)
 
 for i in range(0, len(list(dict_of_items.keys()))):
-    items.append(dict_of_items[items_keys[i]]["name"])
+    items.append(dict_of_items["items1"][items_keys[i]]["name"])
 
 #------------------------------------------------------#
 #Makes item a class
@@ -62,25 +62,19 @@ for i in range(1, 5):
     inventory.append(item)
 
 #------------------------------------------------------#  
-#Starter weapon
-
-starter_weapon = item_class(0, 0, 0)
-starter_weapon.item = items[0]
-starter_weapon.rarity = "Special"
-starter_weapon.dmg = 10
-
-#------------------------------------------------------#
 #Player
+
 
 class player:
     def __init__(self):
-        self.name = name
+        self.name = ""
         self.difficulty = difficulty
-        self.equiped = starter_weapon
+        self.equiped = item_class(items[0], "Special", 10)
         self.player_inventory = inventory
+        self.level = 1
     def __str__(self):
         name_print = f"""
-Name: {self.name} 
+Name: {self.name} lvl {self.level}
 Difficulty: {self.difficulty}
 
 Equipped item: 

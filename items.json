@@ -1,24 +1,28 @@
 {
-    "Stick": {
-        "name": "stick",
-        "type": "weapon",
-        "base_dmg": 0     
+    "items1": {
+        "Stick": {
+            "name": "stick",
+            "type": "weapon",
+            "base_dmg": 0     
+        },
+        "Sword": {
+            "name": "sword",
+            "type": "weapon",
+            "base_dmg": 0
+        },
+        "Dagger": {
+            "name": "dagger",
+            "type": "weapon",
+            "base_dmg": 0
+        },
+        "Knife": {
+            "name": "knife",
+            "type": "weapon",
+            "base_dmg": 0
+        }
     },
-    "Sword": {
-        "name": "sword",
-        "type": "weapon",
-        "base_dmg": 0
-    },
-    "Dagger": {
-        "name": "dagger",
-        "type": "weapon",
-        "base_dmg": 0
-    },
-    "Knife": {
-        "name": "knife",
-        "type": "weapon",
-        "base_dmg": 0
+    "rareties": {
+
     }
 
-}
-
+}   
