@@ -87,8 +87,7 @@ Equipped item:
 {self.equiped}
 
 Inventory: 
-""" + "\n".join(f"{index + 1}.\n{item_class}" for index, item_class in enumerate(inventory))
-        
+""" + "\n".join(f"{index + 1}.\n{item_class}" for index, item_class in enumerate(self.player_inventory))
         return name_print
 
 print(player())
