@@ -1,5 +1,5 @@
 {
-    "items1": {
+    "dict_items": {
         "Stick": {
             "name": "stick",
             "type": "weapon",
@@ -21,8 +21,27 @@
             "base_dmg": 0
         }
     },
-    "rareties": {
-
+    "dict_rareties": {
+        "Common": {
+            "name": "Common",
+            "chans": 0.5
+        },
+        "Rare": {
+            "name": "Rare",
+            "chans": 0.3
+        },
+        "Epic": {
+            "name": "Epic",
+            "chans": 0.15
+        },
+        "Legendary": {
+            "name": "Legendary",
+            "chans": 0.04
+        },
+        "Mythic": {
+            "name": "Mythic",
+            "chans": 0.01
+        }
     }
 
 }   
