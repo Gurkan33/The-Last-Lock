@@ -24,23 +24,33 @@
     "dict_rareties": {
         "Common": {
             "name": "Common",
+            "name_print": "simple_colors.black('Common')",
             "chans": 0.5
         },
         "Rare": {
             "name": "Rare",
+            "name_print": "simple_colors.blue('Rare')",
             "chans": 0.3
         },
         "Epic": {
             "name": "Epic",
+            "name_print": "simple_colors.magenta('Epic')",
             "chans": 0.15
         },
         "Legendary": {
             "name": "Legendary",
+            "name_print": "simple_colors.yellow('Legendary')",
             "chans": 0.04
         },
         "Mythic": {
             "name": "Mythic",
+            "name_print": "simple_colors.red('Mythic',['italic','bright'])",
             "chans": 0.01
+        },
+        "Special": {
+            "name": "Special",
+            "name_print": "simple_colors.cyan('Special')",
+            "chans": 0
         }
     }
 

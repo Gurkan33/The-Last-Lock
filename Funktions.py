@@ -10,14 +10,7 @@ import pathlib
 
 with open(str(pathlib.Path(__file__).parent.resolve())  + "\items.json") as file:
     dict_of_items = json.load(file)
-rareties_print = {
-    "Common": simple_colors.black("Common"), 
-    "Rare": simple_colors.blue("Rare"), 
-    "Epic": simple_colors.magenta("Epic"), 
-    "Legendary": simple_colors.yellow("Legendary"), 
-    "Mythic": simple_colors.red("Mythic",["italic","bright"]),
-    "Special": "Special"
-    }
+
 rareties = dict_of_items["dict_rareties"]
 items = dict_of_items["dict_items"]["type"]["weapons"]
 name = ""
@@ -33,7 +26,7 @@ class item_class:
         self.dmg = dmg
     
     def __str__(self):
-        return f"{rareties_print[self.rarity]} {simple_colors.black(self.item)} \n  dmg: {simple_colors.red(self.dmg)}"
+        return f"{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.item)} \n  dmg: {simple_colors.red(self.dmg)}"
 
 #------------------------------------------------------#
 #Generate item
@@ -41,7 +34,7 @@ class item_class:
 def generate_item():
 
     item = list(items)[rand.randint(0, len(items)-1)]
-    rarity = list(rareties)[rand.randint(0, len(list(rareties))-1)]
+    rarity = list(rareties)[rand.randint(0, len(list(rareties))-2)]
     dmg = items[item]["base_dmg"]
 
     if rarity == rareties["Common"]["name"]:
@@ -70,7 +63,7 @@ class player_class:
     def __init__(self):
         self.name = ""
         self.difficulty = int(1)
-        self.equiped = item_class(items["Stick"]["name"], "Special", 10)
+        self.equiped = item_class(items["Stick"]["name"], rareties["Special"]["name"], 10)
         self.inventory = []
         self.hp = 100
         self.level = 1
@@ -171,13 +164,15 @@ def chooseDoor():
     if SystemFunktions.valid_user_choice(chosen_rout, 5, "multiChoice"):
         if chosen_rout == "1":
             door_randomizer
-        if chosen_rout == "2":
+        elif chosen_rout == "2":
             door_randomizer
-        if chosen_rout == "3":
+        elif chosen_rout == "3":
             door_randomizer
-        if chosen_rout == "4":
+        elif chosen_rout == "4":
+            ""
             #if player.key == True
-        if chosen_rout == "5":
+        elif chosen_rout == "5":
+            ""
             #Exit  
                    
 
@@ -191,10 +186,13 @@ def door_randomizer():
         Encounter()
 
 def Trap():
+    return
     #Trap
 
 def Chest():
+    return
     #Chest
 
 def Encounter():
+    return
     #Encounter
