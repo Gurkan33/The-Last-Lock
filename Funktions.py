@@ -19,7 +19,7 @@ rareties_print = {
     "Special": "Special"
     }
 rareties = dict_of_items["dict_rareties"]
-items = dict_of_items["dict_items"]
+items = dict_of_items["dict_items"]["type"]["weapons"]
 name = ""
 
 
