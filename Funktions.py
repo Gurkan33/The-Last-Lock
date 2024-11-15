@@ -3,11 +3,12 @@ import json
 import simple_colors
 import SystemFunktions
 import TextOchGubbar
+import pathlib
 
 #------------------------------------------------------#
 #Variables
 
-with open("items.json") as file:
+with open(str(pathlib.Path(__file__).parent.resolve())  + "\items.json") as file:
     dict_of_items = json.load(file)
 rareties_print = {
     "Common": simple_colors.black("Common"), 
@@ -59,26 +60,7 @@ def generate_item():
         dmg = dmg + rand.randint(9, 13)
     
     return item_class(item, rarity, dmg)
-
-
-
-#------------------------------------------------------#
-#Start of game
-def start_of_game():
-    print(TextOchGubbar.rubrik + "\n\n")
-
-    print(simple_colors.red("Welcome to The Last Lock!",["bold","underlined"]))
-    print(simple_colors.red("""Your now locked in a prison and have to fight your way out of it!
-        Open kests, Fight enemys, Avoid traps and more! \n"""))
-    
-    player_Name = SystemFunktions.valid_character_name() #Spelare skriver in sitt namn!
-    player.name = player_Name
-
-    print(simple_colors.red("Ohh! Nice name " + simple_colors.blue(str(player_Name)) + "!\n"))
-
-    print(simple_colors.red("Now ") + simple_colors.blue(str(player_Name)) + simple_colors.red(" its time to make your first move!"))
-
-    print(simple_colors.red("""What do you want to do?."""))
+ 
 
 
 #------------------------------------------------------#  
@@ -90,10 +72,14 @@ class player_class:
         self.difficulty = int(1)
         self.equiped = item_class(items["Stick"]["name"], "Special", 10)
         self.inventory = []
+        self.hp = 100
         self.level = 1
     def __str__(self):
         name_print = f"""
-Name: {self.name} lvl {self.level}
+Name: 
+{self.name} lvl {self.level}
+hp: {self.hp}
+
 Difficulty: {self.difficulty}
 
 Equipped item: 
@@ -109,7 +95,7 @@ for i in range(1, 5):
     item = generate_item()
     player.inventory.append(item)
 
-#------------------------------------------------------#
+#----------------------------------------------------------------------------#
 #Inventory manager
 
 def inventory_Manager():
@@ -133,12 +119,13 @@ def inventory_Manager():
                 for i in range(0, len(player.inventory)):
                     print(f"{i+1}. \n{player.inventory[i]}")
 
-                    print("([Any key] to cancel!)\n")
+                print("([Any key] to cancel!)\n")
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
                 if SystemFunktions.valid_user_choice(chosen_item_index, len(player.inventory), "Your choice isn't in the inventory!") == True:
                     chosen_item_index = int(chosen_item_index)
-                    player.equiped = player.inventory[chosen_item_index-1]
+                    player.inventory.append(player.equiped)
+                    player.equiped =  player.inventory.pop(chosen_item_index-1)
                     print(TextOchGubbar.player_text)
                     print(player)
                     break
@@ -165,3 +152,18 @@ def inventory_Manager():
 
             if chosen_rout == "3": # Break
                 break
+
+#--------------------------------------------------------------------------------#
+
+def chooseDoor():
+    print(TextOchGubbar.doors)
+
+    print(f"""Which door do you want to open?{["bold"]}
+[1] Door 1
+[2] Door 2
+[3] Door 3
+[4] Door 4
+          
+[5] Go back
+          
+          """)

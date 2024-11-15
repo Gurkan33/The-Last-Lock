@@ -18,16 +18,27 @@ import TextOchGubbar
 import SystemFunktions
 import Funktions
 
-Funktions.start_of_game()
 
-level = 1
-hp = 100
+print(TextOchGubbar.rubrik + "\n\n")
+
+print(simple_colors.red("Welcome to The Last Lock!",["bold","underlined"]))
+print(simple_colors.red("""Your now locked in a prison and have to fight your way out of it!
+    Open kests, Fight enemys, Avoid traps and more! \n"""))
+    
+player_Name = SystemFunktions.valid_character_name() #Spelare skriver in sitt namn!
+Funktions.player.name = player_Name
+
+print(simple_colors.red("Ohh! Nice name " + simple_colors.blue(str(Funktions.player.name)) + "!\n"))
+
+print(simple_colors.red("Now ") + simple_colors.blue(str(Funktions.player.name)) + simple_colors.red(" its time to make your first move!"))
+
+print(simple_colors.red("""What do you want to do?."""))
 
 while True:
-    if hp <= 0:
+    if Funktions.player.hp <= 0:
         print(simple_colors.red("Du förlorade! :(",["bold","underlined"]))
         break
-    elif level > 10:
+    elif Funktions.player.level > 10:
         #spelare får nyckel!
         print("")
 
@@ -41,4 +52,5 @@ while True:
             Funktions.inventory_Manager()
             #print player statistics
 
-       # elif chosen_rout == "2":
+        elif chosen_rout == "2":
+            Funktions.chooseDoor()
