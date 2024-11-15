@@ -158,12 +158,43 @@ def inventory_Manager():
 def chooseDoor():
     print(TextOchGubbar.doors)
 
-    print(f"""Which door do you want to open?{["bold"]}
+    print("""Which door do you want to open?
 [1] Door 1
 [2] Door 2
 [3] Door 3
 [4] Door 4
           
-[5] Go back
-          
-          """)
+[5] Go back""")
+    
+    chosen_rout = input(simple_colors.blue("-->",["bold"]))
+
+    if SystemFunktions.valid_user_choice(chosen_rout, 5, "multiChoice"):
+        if chosen_rout == "1":
+            door_randomizer
+        if chosen_rout == "2":
+            door_randomizer
+        if chosen_rout == "3":
+            door_randomizer
+        if chosen_rout == "4":
+            #if player.key == True
+        if chosen_rout == "5":
+            #Exit  
+                   
+
+def door_randomizer():
+    random_num = rand.randint(1,3)
+    if random_num == 1:
+        Trap()
+    elif random_num == 2:
+        Chest()
+    elif random_num == 3:
+        Encounter()
+
+def Trap():
+    #Trap
+
+def Chest():
+    #Chest
+
+def Encounter():
+    #Encounter
