@@ -19,48 +19,38 @@ import SystemFunktions
 import Funktions
 
 
-print(TextOchGubbar.rubrik)
+print(TextOchGubbar.rubrik + "\n\n")
 
-print("")
-print("")
 print(simple_colors.red("Welcome to The Last Lock!",["bold","underlined"]))
 print(simple_colors.red("""Your now locked in a prison and have to fight your way out of it!
     Open kests, Fight enemys, Avoid traps and more! \n"""))
-
+    
 player_Name = SystemFunktions.valid_character_name() #Spelare skriver in sitt namn!
+Funktions.player.name = player_Name
 
-player = Funktions.player()
-player.name = player_Name
+print(simple_colors.red("Ohh! Nice name " + simple_colors.blue(str(Funktions.player.name)) + "!\n"))
 
-print(player)
-
-print(simple_colors.red("Ohh! Nice name " + simple_colors.blue(str(player_Name)) + "!\n"))
-
-print(simple_colors.red("Now " + simple_colors.blue(str(player_Name))) + simple_colors.red(" its time to make your first move!"))
+print(simple_colors.red("Now ") + simple_colors.blue(str(Funktions.player.name)) + simple_colors.red(" its time to make your first move!"))
 
 print(simple_colors.red("""What do you want to do?."""))
 
-level = 1
-hp = 100
-
-
 while True:
-    if hp <= 0:
+    if Funktions.player.hp <= 0:
         print(simple_colors.red("Du förlorade! :(",["bold","underlined"]))
         break
-    elif level > 10:
+    elif Funktions.player.level > 10:
         #spelare får nyckel!
         print("")
 
     print("""Chose what you wish to do!
-    [1] Looka at inventory
+    [1] Looka at player info
     [2] Chose a door""")
     
     chosen_rout = input(simple_colors.blue("-->",["bold"]))
     if SystemFunktions.valid_user_choice(chosen_rout, 2, "multiChoice") == True:
         if chosen_rout == "1":
-            print(TextOchGubbar.inventory)
             Funktions.inventory_Manager()
             #print player statistics
 
-       # elif chosen_rout == "2":
+        elif chosen_rout == "2":
+            Funktions.chooseDoor()

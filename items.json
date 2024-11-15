@@ -1,24 +1,47 @@
 {
-    "Stick": {
-        "name": "stick",
-        "type": "weapon",
-        "base_dmg": 0     
+    "dict_items": {
+        "Stick": {
+            "name": "stick",
+            "type": "weapon",
+            "base_dmg": 0     
+        },
+        "Sword": {
+            "name": "sword",
+            "type": "weapon",
+            "base_dmg": 0
+        },
+        "Dagger": {
+            "name": "dagger",
+            "type": "weapon",
+            "base_dmg": 0
+        },
+        "Knife": {
+            "name": "knife",
+            "type": "weapon",
+            "base_dmg": 0
+        }
     },
-    "Sword": {
-        "name": "sword",
-        "type": "weapon",
-        "base_dmg": 0
-    },
-    "Dagger": {
-        "name": "dagger",
-        "type": "weapon",
-        "base_dmg": 0
-    },
-    "Knife": {
-        "name": "knife",
-        "type": "weapon",
-        "base_dmg": 0
+    "dict_rareties": {
+        "Common": {
+            "name": "Common",
+            "chans": 0.5
+        },
+        "Rare": {
+            "name": "Rare",
+            "chans": 0.3
+        },
+        "Epic": {
+            "name": "Epic",
+            "chans": 0.15
+        },
+        "Legendary": {
+            "name": "Legendary",
+            "chans": 0.04
+        },
+        "Mythic": {
+            "name": "Mythic",
+            "chans": 0.01
+        }
     }
 
-}
-
+}   
