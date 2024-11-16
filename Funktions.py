@@ -14,7 +14,7 @@ with open(str(pathlib.Path(__file__).parent.resolve())  + "\items.json") as file
 rareties = dict_of_items["dict_rareties"]
 items = dict_of_items["dict_items"]["type"]["weapons"]
 name = ""
-inventory_max_size = 4
+inventory_max_size = 3
 
 #------------------------------------------------------#
 #Makes item a class
@@ -125,8 +125,8 @@ def player_Manager():
 
 
             if chosen_rout == "2": #Tar bort en item av spelarens val ifrån inventoryt
-                print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
                 print(TextOchGubbar.inventory)
+                print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
                 for i in range(0, len(player.inventory)):
                     print(f"{i+1}. \n{player.inventory[i]}")
 
@@ -215,41 +215,43 @@ would you like to delet an item
 [1] Yes
 [2] No
 """)
-                    while True:
-                        chosen_input = input(simple_colors.blue("-->",["bold"]))
-                        if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice") == True:
-                            if chosen_input == "1":
+                    chosen_input = input(simple_colors.blue("-->",["bold"]))
+                    if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice") == True:
+                        if chosen_input == "1":
 
-                                print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
-                                print(TextOchGubbar.inventory)
+                            print(TextOchGubbar.inventory)
+
+                            print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
+                            print(f"""Item from chest:
+{chest_item}""")
+
+                            for i in range(0, len(player.inventory)):
+                                print(f"{i+1}. \n{player.inventory[i]}")
+
+                            print("([Any key] to cancel!)\n")
+
+                            chosen_item_index = input(simple_colors.blue("-->",["bold"]))
+
+                            if SystemFunktions.valid_user_choice(chosen_item_index, len(player.inventory), "Your choice isn't in the inventory!") == True:
+                                chosen_item_index = int(chosen_item_index)
+
+                                print(simple_colors.red("Du tog bort ") + str(player.inventory.pop(chosen_item_index-1)) + simple_colors.red(" från ditt invetory!\n"))
+                                
+                                print(f"""{chest_item}
+has ben added to your inventory
+""")
+                                player.inventory.append(chest_item)
 
                                 for i in range(0, len(player.inventory)):
                                     print(f"{i+1}. \n{player.inventory[i]}")
+                                break
 
-                                print("([Any key] to cancel!)\n")
-
-                                chosen_item_index = input(simple_colors.blue("-->",["bold"]))
-
-                                if SystemFunktions.valid_user_choice(chosen_item_index, len(player.inventory), "Your choice isn't in the inventory!") == True:
-                                    chosen_item_index = int(chosen_item_index)
-
-                                    print(simple_colors.red("Du tog bort ") + str(player.inventory.pop(chosen_item_index-1)) + simple_colors.red(" från ditt invetory!\n"))
-                                    
-                                    print(f"""{chest_item}
-has ben added to your inventory
-""")
-                                    player.inventory.append(chest_item)
-
-                                    for i in range(0, len(player.inventory)):
-                                        print(f"{i+1}. \n{player.inventory[i]}")
-                                    break
-
-                            elif chosen_input == "2":
-                                print(f"""{chest_item}
+                        elif chosen_input == "2":
+                            print(f"""{chest_item}
 was left behind
 """)
-                                break
                             break
+                        break
                     
 
             elif chosen_input == "2":
