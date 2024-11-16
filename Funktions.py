@@ -34,7 +34,7 @@ class item_class:
 def generate_item():
 
     item = list(items)[rand.randint(0, len(items)-1)]
-    rarity = list(rareties)[rand.randint(0, len(list(rareties))-2)]
+    rarity = rareties[list(rareties)[rand.randint(0, len(list(rareties))-2)]]["name"]
     dmg = items[item]["base_dmg"]
 
     if rarity == rareties["Common"]["name"]:
