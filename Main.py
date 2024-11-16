@@ -49,7 +49,7 @@ while True:
     chosen_rout = input(simple_colors.blue("-->",["bold"]))
     if SystemFunktions.valid_user_choice(chosen_rout, 2, "multiChoice") == True:
         if chosen_rout == "1":
-            Funktions.inventory_Manager()
+            Funktions.player_Manager()
             #print player statistics
 
         elif chosen_rout == "2":
