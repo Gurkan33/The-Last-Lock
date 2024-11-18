@@ -185,14 +185,18 @@ def door_randomizer():
     elif random_num == 3:
         Encounter()
 
+#--------------------------------------------------------------------------------#
+
 def Trap():
     print("trap")
     return
     #Trap
 
+#--------------------------------------------------------------------------------#
+
 def Chest():
     chest_item = generate_item()
-    print(F"""You have found a chest with a:
+    print(F"""You have found a chest containing a:
 {chest_item}
 Would you like to claim this item?
 [1] Yes
@@ -259,14 +263,10 @@ was left behind
 was left behind
 """)
                 break
-    #Chest
+
+#--------------------------------------------------------------------------------#
 
 def Encounter():
     print("Encounter")
     return
     #Encounter
-
-
-
-
-
