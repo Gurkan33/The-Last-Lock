@@ -174,7 +174,8 @@ def chooseDoor():
         elif chosen_rout == "5":
             ""
             #Exit  
-                   
+
+#--------------------------------------------------------------------------------#       
 
 def door_randomizer():
     random_num = rand.randint(1,3)
@@ -188,9 +189,22 @@ def door_randomizer():
 #--------------------------------------------------------------------------------#
 
 def Trap():
-    print("trap")
+    # random_Trap = rand.randint(1,10)
+
+    # if random_Trap == 1 or random_Trap == 2 or random_Trap == 3 or random_Trap == 4 or random_Trap == 5:
+    #     print(simple_colors.red(""" Ouch!
+    #     You stepped on nails and lost 10hp!"""))
+
+    # elif random_Trap == 6 or random_Trap == 7 or random_Trap == 8 or random_Trap == 9:
+    #     print(simple_colors.red("""Life's tough in prison
+    #     You got in a fight and lost 20hp!"""))
+
+    # elif random_Trap == 10:
+    #     print(simple_colors.red("""Where is my gun?
+    #     You lost your gun to a pickpocket while having lunch!""")
+    
+
     return
-    #Trap
 
 #--------------------------------------------------------------------------------#
 
