@@ -90,6 +90,23 @@ for i in range(1, 5):
     item = generate_item()
     player.inventory.append(item)
 
+#------------------------------------------------------# 
+#Enemy
+
+class enemy_class:
+    def __init__(self):
+        self.name = ""
+        self.difficulty = cons.difficulty
+        self.weapon = "" #Kanske en item? Eller custom item?
+        self.hp = cons.enemy_hp
+
+    def __str__(self):
+        enemy_print =f"""
+        Difficulty: {self.difficulty}
+        Name: {self.name}
+        hp: {self.hp}
+        weapon: {self.weapon} with a dmg of: {self.weapon.dmg}"""
+
 #----------------------------------------------------------------------------#
 #Inventory manager
 
@@ -229,9 +246,9 @@ def Trap():
             print(simple_colors.red(f"""Where is my weapon?
 You lost your:
 {player.equiped.pop(random_invetory_index-1)}
- """)) + simple_colors.red("from you inventory to a pickpocket while having lunch!")
+""")) + simple_colors.red("from you inventory to a pickpocket while having lunch!")
         else:
-            print("Text om att man springer iväg")
+            print(simple_colors.red("A pickpocket tried to steal from you but found nothing"))
 
     return
 
@@ -309,16 +326,14 @@ was left behind
                 print(f"""{chest_item}
 was left behind
 """)
-                break
-
-#--------------------------------------------------------------------------------#
+                break 
 
 #--------------------------------------------------------------------------------#
 #Funktion for an encounter room
 
 def Encounter():
     os.system('cls')
-
+    
     print("Encounter")
     return
     #Encounter
