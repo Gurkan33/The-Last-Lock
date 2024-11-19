@@ -4,6 +4,7 @@ import simple_colors
 import SystemFunktions
 import TextOchGubbar
 import pathlib
+import os
 
 #------------------------------------------------------#
 #Variables
@@ -95,6 +96,8 @@ def player_Manager():
 
     
     while True:
+        os.system('cls')
+
         print(TextOchGubbar.player_text)
         print(player)
         print("""\n\n What do you want to do?
@@ -107,6 +110,8 @@ def player_Manager():
 
 
             if chosen_rout == "1": #Equipar ett föremål
+                os.system('cls')
+
                 print(TextOchGubbar.inventory)
                 print("Witch item do you want to equip?")
                 for i in range(0, len(player.inventory)):
@@ -116,6 +121,8 @@ def player_Manager():
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
                 if SystemFunktions.valid_user_choice(chosen_item_index, len(player.inventory), "Your choice isn't in the inventory!") == True:
+                    os.system('cls')
+                    
                     chosen_item_index = int(chosen_item_index)
                     player.inventory.append(player.equiped)
                     player.equiped =  player.inventory.pop(chosen_item_index-1)
@@ -125,6 +132,8 @@ def player_Manager():
 
 
             if chosen_rout == "2": #Tar bort en item av spelarens val ifrån inventoryt
+                os.system('cls')
+
                 print(TextOchGubbar.inventory)
                 print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
                 for i in range(0, len(player.inventory)):
@@ -134,9 +143,11 @@ def player_Manager():
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
                 if SystemFunktions.valid_user_choice(chosen_item_index, len(player.inventory), "Your choice isn't in the inventory!") == True:
+                    os.system('cls')
+
                     chosen_item_index = int(chosen_item_index)
 
-                    print(simple_colors.red("Du tog bort ") + str(player.inventory.pop(chosen_item_index-1)) + simple_colors.red(" från ditt invetory!\n"))
+                    print(simple_colors.red("You removed ") + str(player.inventory.pop(chosen_item_index-1)) + simple_colors.red(" from your inventory\n"))
                     
                     for i in range(0, len(player.inventory)):
                         print(f"{i+1}. \n{player.inventory[i]}")
@@ -144,12 +155,15 @@ def player_Manager():
                         
 
             if chosen_rout == "3": # Break
+                os.system('cls')
                 break
 
 #--------------------------------------------------------------------------------#
 #Funktion to choos a door
 
 def chooseDoor():
+    os.system('cls')
+
     print(TextOchGubbar.doors)
 
     print("""Which door do you want to open?
@@ -175,7 +189,8 @@ def chooseDoor():
         elif chosen_rout == "5":
             ""
             #Exit  
-                   
+
+#--------------------------------------------------------------------------------#       
 
 def door_randomizer():
     random_num = rand.randint(1,3)
@@ -191,17 +206,41 @@ def door_randomizer():
 
 
 def Trap():
-    print("trap")
+    random_Trap = rand.randint(1,30)
+    os.system('cls')
+
+    if random_Trap >= 1 and random_Trap <=20:
+        print(simple_colors.red(""" Ouch!
+        You stepped on nails and lost 10hp!"""))
+        player.hp = player.hp-10
+        print("\nYour health is now " + simple_colors.red(str(player.hp),["bold"]) + " hp")
+
+    elif random_Trap >= 21 and random_Trap <=29:
+        print(simple_colors.red("""Life's tough in prison
+        You got in a fight and lost 20hp!"""))
+        player.hp = player.hp-20
+        print("\nYour health is now " + simple_colors.red(str(player.hp),["bold"]) + " hp")
+
+    elif random_Trap == 30:
+        random_invetory_index = rand.randint(1, len(player.inventory)) 
+        print(simple_colors.red(f"""Where is my weapon?
+    You lost your 
+        {player.equiped.pop(random_invetory_index-1)}"""))    
+        print(simple_colors.red(" from you inventory to a pickpocket while having lunch!"))
+
     return
-    #Trap
+
+#--------------------------------------------------------------------------------#
 
 #--------------------------------------------------------------------------------#
 #Funktion for chest room
 
 
 def Chest():
+    os.system('cls')
+
     chest_item = generate_item()
-    print(F"""You have found a chest with a:
+    print(F"""You have found a chest containing a:
 {chest_item}
 Would you like to claim this item?
 [1] Yes
@@ -268,17 +307,15 @@ was left behind
 was left behind
 """)
                 break
-    #Chest
+
+#--------------------------------------------------------------------------------#
 
 #--------------------------------------------------------------------------------#
 #Funktion for an encounter room
 
 def Encounter():
+    os.system('cls')
+
     print("Encounter")
     return
     #Encounter
-
-
-
-
-

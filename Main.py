@@ -17,6 +17,7 @@ import simple_colors
 import TextOchGubbar
 import SystemFunktions
 import Funktions
+import os
 
 
 print(TextOchGubbar.rubrik + "\n\n")
@@ -45,6 +46,7 @@ while True:
     print("""Chose what you wish to do!
     [1] Looka at player info
     [2] Chose a door""")
+
     
     chosen_rout = input(simple_colors.blue("-->",["bold"]))
     if SystemFunktions.valid_user_choice(chosen_rout, 2, "multiChoice") == True:
