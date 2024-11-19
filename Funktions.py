@@ -5,6 +5,7 @@ import SystemFunktions
 import TextOchGubbar
 import pathlib
 import os
+import constants as cons
 
 #------------------------------------------------------#
 #Variables
@@ -37,6 +38,7 @@ def generate_item():
     item = list(items)[rand.randint(0, len(items)-1)]
     rarity = rareties[list(rareties)[rand.randint(0, len(list(rareties))-2)]]["name"]
     dmg = items[item]["base_dmg"]
+    rarity_chans = rand.randint(1, 100)
 
     if rarity == rareties["Common"]["name"]:
         dmg = dmg + rand.randint(1, 5)
@@ -63,18 +65,17 @@ def generate_item():
 class player_class:
     def __init__(self):
         self.name = ""
-        self.difficulty = int(1)
+        self.difficulty = cons.difficulty
         self.equiped = item_class(items["Stick"]["name"], rareties["Special"]["name"], 10)
         self.inventory = []
-        self.hp = 100
+        self.hp = cons.max_hp
         self.level = 1
     def __str__(self):
         name_print = f"""
+Difficulty: {self.difficulty}
 Name: 
 {self.name} lvl {self.level}
 hp: {self.hp}
-
-Difficulty: {self.difficulty}
 
 Equipped item: 
 {self.equiped}
