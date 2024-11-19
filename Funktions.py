@@ -191,6 +191,7 @@ def chooseDoor():
             #Exit  
 
 #--------------------------------------------------------------------------------#       
+#Funktion för att välja typ av rum
 
 def door_randomizer():
     random_num = rand.randint(1,3)
@@ -222,15 +223,16 @@ def Trap():
         print("\nYour health is now " + simple_colors.red(str(player.hp),["bold"]) + " hp")
 
     elif random_Trap == 30:
-        random_invetory_index = rand.randint(1, len(player.inventory)) 
-        print(simple_colors.red(f"""Where is my weapon?
-    You lost your 
-        {player.equiped.pop(random_invetory_index-1)}"""))    
-        print(simple_colors.red(" from you inventory to a pickpocket while having lunch!"))
+        if len(player.inventory) > 0:
+            random_invetory_index = rand.randint(1, len(player.inventory)) 
+            print(simple_colors.red(f"""Where is my weapon?
+You lost your:
+{player.equiped.pop(random_invetory_index-1)}
+ """)) + simple_colors.red("from you inventory to a pickpocket while having lunch!")
+        else:
+            print("Text om att man springer iväg")
 
     return
-
-#--------------------------------------------------------------------------------#
 
 #--------------------------------------------------------------------------------#
 #Funktion for chest room
