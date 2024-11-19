@@ -147,6 +147,7 @@ def player_Manager():
                 break
 
 #--------------------------------------------------------------------------------#
+#Funktion to choos a door
 
 def chooseDoor():
     print(TextOchGubbar.doors)
@@ -185,10 +186,18 @@ def door_randomizer():
     elif random_num == 3:
         Encounter()
 
+#--------------------------------------------------------------------------------#
+#Funktion for a trap room
+
+
 def Trap():
     print("trap")
     return
     #Trap
+
+#--------------------------------------------------------------------------------#
+#Funktion for chest room
+
 
 def Chest():
     chest_item = generate_item()
@@ -260,6 +269,9 @@ was left behind
 """)
                 break
     #Chest
+
+#--------------------------------------------------------------------------------#
+#Funktion for an encounter room
 
 def Encounter():
     print("Encounter")
