@@ -4,19 +4,23 @@
             "weapons": {
                 "Stick": {
                     "name": "stick",
-                    "base_dmg": 0     
+                    "base_dmg": 0,
+                    "weight": 0 
                 },
                 "Sword": {
                     "name": "sword",
-                    "base_dmg": 0
+                    "base_dmg": 0,
+                    "weight": 0
                 },
                 "Dagger": {
                     "name": "dagger",
-                    "base_dmg": 0
+                    "base_dmg": 0,
+                    "weight": 0
                 },
                 "Knife": {
                     "name": "knife",
-                    "base_dmg": 0
+                    "base_dmg": 0,
+                    "weight": 0
                 }
         }
         }
@@ -24,27 +28,33 @@
     "dict_rareties": {
         "Common": {
             "name": "Common",
-            "name_print": "simple_colors.black('Common')"
+            "name_print": "simple_colors.black('Common')",
+            "weight": 50
         },
         "Rare": {
             "name": "Rare",
-            "name_print": "simple_colors.blue('Rare')"
+            "name_print": "simple_colors.blue('Rare')",
+            "weight": 30
         },
         "Epic": {
             "name": "Epic",
-            "name_print": "simple_colors.magenta('Epic')"
+            "name_print": "simple_colors.magenta('Epic')",
+            "weight": 15
         },
         "Legendary": {
             "name": "Legendary",
-            "name_print": "simple_colors.yellow('Legendary')"
+            "name_print": "simple_colors.yellow('Legendary')",
+            "weight": 4
         },
         "Mythic": {
             "name": "Mythic",
-            "name_print": "simple_colors.red('Mythic',['italic','bright'])"
+            "name_print": "simple_colors.red('Mythic',['italic','bright'])",
+            "weight": 1
         },
         "Special": {
             "name": "Special",
-            "name_print": "simple_colors.cyan('Special')"
+            "name_print": "simple_colors.cyan('Special')",
+            "weight": 0
         }
     }
 

@@ -15,7 +15,6 @@ with open(str(pathlib.Path(__file__).parent.resolve())  + "\items.json") as file
 
 rareties = dict_of_items["dict_rareties"]
 items = dict_of_items["dict_items"]["type"]["weapons"]
-name = ""
 inventory_max_size = 3
 
 #------------------------------------------------------#
@@ -36,9 +35,13 @@ class item_class:
 def generate_item():
 
     item = list(items)[rand.randint(0, len(items)-1)]
-    rarity = rareties[list(rareties)[rand.randint(0, len(list(rareties))-2)]]["name"]
     dmg = items[item]["base_dmg"]
-    rarity_chans = rand.randint(1, 100)
+    rareties_names = []
+    rareties_weight = []
+    for i in range(0, len(list(rareties.keys()))):
+        rareties_names.append(rareties[list(rareties.keys())[i]]["name"])
+        rareties_weight.append(rareties[list(rareties.keys())[i]]["weight"])
+    rarity = rand.choices(rareties_names, weights=rareties_weight, k = 1)[0]
 
     if rarity == rareties["Common"]["name"]:
         dmg = dmg + rand.randint(1, 5)
@@ -86,7 +89,7 @@ Inventory:
 
 player = player_class()
 
-for i in range(1, 5):
+for i in range(1, 200):
     item = generate_item()
     player.inventory.append(item)
 
@@ -337,3 +340,7 @@ def Encounter():
     print("Encounter")
     return
     #Encounter
+
+
+
+print(player)
