@@ -27,7 +27,8 @@ class item_class:
         self.dmg = dmg
     
     def __str__(self):
-        return f"{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.item)} \n  dmg: {simple_colors.red(self.dmg)}"
+        return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.item)} 
+dmg: {simple_colors.red(self.dmg)}"""
 
 #------------------------------------------------------#
 #Generate item
@@ -36,29 +37,16 @@ def generate_item():
 
     item = list(items)[rand.randint(0, len(items)-1)]
     dmg = items[item]["base_dmg"]
-    rareties_names = []
+    rareties_keys = list(rareties.keys())
     rareties_weight = []
+    
     for i in range(0, len(list(rareties.keys()))):
-        rareties_names.append(rareties[list(rareties.keys())[i]]["name"])
         rareties_weight.append(rareties[list(rareties.keys())[i]]["weight"])
-    rarity = rand.choices(rareties_names, weights=rareties_weight, k = 1)[0]
-
-    if rarity == rareties["Common"]["name"]:
-        dmg = dmg + rand.randint(1, 5)
-
-    elif rarity == rareties["Rare"]["name"]:
-        dmg = dmg + rand.randint(3, 7)
-
-    elif rarity == rareties["Epic"]["name"]:
-        dmg = dmg + rand.randint(5, 9)
-
-    elif rarity == rareties["Legendary"]["name"]:
-        dmg = dmg + rand.randint(7, 11)
     
-    elif rarity == rareties["Mythic"]["name"]:
-        dmg = dmg + rand.randint(9, 13)
+    rarity = rand.choices(rareties_keys, weights=rareties_weight, k = 1)[0]
+    dmg = dmg + rand.randint(rareties[rarity]["dmg_lower"], rareties[rarity]["dmg_upper"])
     
-    return item_class(item, rarity, dmg)
+    return item_class(item, rareties[rarity]["name"], dmg)
  
 
 
@@ -73,12 +61,15 @@ class player_class:
         self.inventory = []
         self.hp = cons.max_hp
         self.level = 1
+        # self.dmg = self.equiped.dmg + 100
     def __str__(self):
         name_print = f"""
 Difficulty: {self.difficulty}
 Name: 
 {self.name} lvl {self.level}
 hp: {self.hp}
+
+dmg: 
 
 Equipped item: 
 {self.equiped}
@@ -89,7 +80,7 @@ Inventory:
 
 player = player_class()
 
-for i in range(1, 200):
+for i in range(1, 5):
     item = generate_item()
     player.inventory.append(item)
 
@@ -105,10 +96,10 @@ class enemy_class:
 
     def __str__(self):
         enemy_print =f"""
-        Difficulty: {self.difficulty}
-        Name: {self.name}
-        hp: {self.hp}
-        weapon: {self.weapon} with a dmg of: {self.weapon.dmg}"""
+Difficulty: {self.difficulty}
+Name: {self.name}
+hp: {self.hp}
+weapon: {self.weapon} with a dmg of: {self.weapon.dmg}"""
 
 #----------------------------------------------------------------------------#
 #Inventory manager
