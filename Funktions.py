@@ -14,10 +14,23 @@ with open(str(pathlib.Path(__file__).parent.resolve())  + "\items.json") as file
     dict_of_items = json.load(file)
 
 rareties = dict_of_items["dict_rareties"]
-items = dict_of_items["dict_items"]["type"]["weapons"]
+items_weapons = dict_of_items["dict_items"]["type"]["weapons"]
+enemies = dict_of_items["dict_enemies"]
+
 inventory_max_size = 3
 
-items_weapons = dict_of_items["dict_items"]["type"]["weapons"]
+items_weapons_weight = []
+rareties_weight = []
+enemies_weight = []
+
+for i in range(0, len(list(items_weapons))):
+    items_weapons_weight.append(items_weapons[list(items_weapons)[i]]["weight"])
+    
+for i in range(0, len(list(rareties))):
+    rareties_weight.append(rareties[list(rareties)[i]]["weight"])
+
+for i in range(0, len(list(enemies))):
+    enemies_weight.append(enemies[list(enemies)[i]]["weight"])
 
 
 #------------------------------------------------------#
@@ -25,7 +38,7 @@ items_weapons = dict_of_items["dict_items"]["type"]["weapons"]
 
 class item_class:
     def __init__(self, item, rarity, dmg):
-        self.item = item
+        self.item = items_weapons[item]["name"]
         self.rarity = rarity
         self.dmg = dmg
     
@@ -40,20 +53,14 @@ def generate_item():
 
     item = list(items_weapons)[rand.randint(0, len(items_weapons)-1)]
     dmg = items_weapons[item]["base_dmg"]
+    
+    weapon = rand.choices(list(items_weapons), weights=items_weapons_weight, k = 1)[0]
+    
+    rarity = rand.choices(list(rareties), weights=rareties_weight, k = 1)[0]
 
-    
-    rareties_keys = list(rareties.keys())
-    rareties_weight = []
-    
-    for i in range(0, len(list(rareties.keys()))):
-        rareties_weight.append(rareties[list(rareties.keys())[i]]["weight"])
-    
-    rarity = rand.choices(rareties_keys, weights=rareties_weight, k = 1)[0]
     dmg = dmg + rand.randint(rareties[rarity]["dmg_lower"], rareties[rarity]["dmg_upper"])
     
-    return item_class(item, rareties[rarity]["name"], dmg)
- 
-
+    return item_class(weapon, rareties[rarity]["name"], dmg)
 
 #------------------------------------------------------#  
 #Player
@@ -62,7 +69,7 @@ class player_class:
     def __init__(self):
         self.name = ""
         self.difficulty = cons.difficulty
-        self.equiped = item_class(items_weapons[list(items_weapons)[0]]["name"], rareties["Special"]["name"], 3)
+        self.equiped = item_class(list(items_weapons)[0], rareties["Special"]["name"], 3)
         self.inventory = []
         self.hp = cons.max_hp
         self.level = 1
@@ -73,8 +80,7 @@ class player_class:
     def __str__(self):
         name_print = f"""
 Difficulty: {self.difficulty}
-Name: 
-{self.name} lvl {self.level}
+Name: {self.name} lvl {self.level}
 hp: {self.hp}
 Total dmg: {self.total_dmg()}
 
@@ -95,21 +101,36 @@ for i in range(1, 5):
 #Enemy
 
 class enemy_class:
-    def __init__(self):
-        self.name = ""
+    def __init__(self, enemy_key, enemy_weapon):
+        self.name = enemies[enemy_key]["name"]
         self.difficulty = cons.difficulty
-        self.weapon = "" #Kanske en item? Eller custom item?
+        self.weapon = enemy_weapon #Kanske en item? Eller custom item?
         self.hp = cons.enemy_hp
+        self.dmg = ""
 
     def __str__(self):
         enemy_print =f"""
 Difficulty: {self.difficulty}
 Name: {self.name}
 hp: {self.hp}
-weapon: {self.weapon} with a dmg of: {self.weapon.dmg}"""
+weapon: {self.weapon}"""
+        return enemy_print
+        
+#------------------------------------------------------#
+#Generate enemy
+
+def generate_enemy():
+
+    enemy_key = list(enemies)[rand.randint(0, len(enemies)-1)]
+    
+    weapon = generate_item()
+
+    return enemy_class(enemy_key, weapon)
+
 
 #----------------------------------------------------------------------------#
 #Inventory manager
+print(generate_enemy())
 
 def player_Manager():
 
@@ -335,9 +356,14 @@ was left behind
 def Encounter():
     os.system('cls')
     
-    print("Encounter")
+    print(TextOchGubbar.enemy)
+
+    generate_enemy()
+
+    print(simple_colors.red("""You encountered a prison {}
+""")
+)
     return
-    #Encounter
 
 
 
