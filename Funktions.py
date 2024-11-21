@@ -17,6 +17,9 @@ rareties = dict_of_items["dict_rareties"]
 items = dict_of_items["dict_items"]["type"]["weapons"]
 inventory_max_size = 3
 
+items_weapons = dict_of_items["dict_items"]["type"]["weapons"]
+
+
 #------------------------------------------------------#
 #Makes item a class
 
@@ -35,8 +38,10 @@ dmg: {simple_colors.red(self.dmg)}"""
 
 def generate_item():
 
-    item = list(items)[rand.randint(0, len(items)-1)]
-    dmg = items[item]["base_dmg"]
+    item = list(items_weapons)[rand.randint(0, len(items_weapons)-1)]
+    dmg = items_weapons[item]["base_dmg"]
+
+    
     rareties_keys = list(rareties.keys())
     rareties_weight = []
     
@@ -57,19 +62,21 @@ class player_class:
     def __init__(self):
         self.name = ""
         self.difficulty = cons.difficulty
-        self.equiped = item_class(items["Stick"]["name"], rareties["Special"]["name"], 10)
+        self.equiped = item_class(items_weapons[list(items_weapons)[0]]["name"], rareties["Special"]["name"], 3)
         self.inventory = []
         self.hp = cons.max_hp
         self.level = 1
-        # self.dmg = self.equiped.dmg + 100
+        
+    def total_dmg(self):
+        return int(self.equiped.dmg + cons.base_dmg[self.level-1])
+    
     def __str__(self):
         name_print = f"""
 Difficulty: {self.difficulty}
 Name: 
 {self.name} lvl {self.level}
 hp: {self.hp}
-
-dmg: 
+Total dmg: {self.total_dmg()}
 
 Equipped item: 
 {self.equiped}
