@@ -36,6 +36,7 @@ for i in range(0, len(list(enemies))):
 
 class item_class:
     def __init__(self, item, rarity, dmg):
+        self.key = item
         self.item = items_weapons[item]["name"]
         self.rarity = rarity
         self.dmg = dmg
@@ -100,11 +101,13 @@ for i in range(1, 5):
 
 class enemy_class:
     def __init__(self, enemy_key, enemy_weapon):
+        self.key = enemy_key
         self.name = enemies[enemy_key]["name"]
         self.difficulty = cons.difficulty
         self.weapon = enemy_weapon #Kanske en item? Eller custom item?
         self.hp = enemies[enemy_key]["base_hp"]
         self.dmg = ""
+
 
     def __str__(self):
         enemy_print =f"""
@@ -355,14 +358,16 @@ def Encounter():
     os.system('cls')
     
     print(TextOchGubbar.enemy)
+    enemy = generate_enemy()
 
-    generate_enemy()
+    print(simple_colors.red(f"""Ohh you enountered a {eval(enemies[enemy.key]["name_print"])}
+    Take him down and move forward in the prison!"""))
 
-    print(simple_colors.red("""You encountered a prison {}
-""")
-)
+    print(enemy)
+
+    print(TextOchGubbar.VS)
+
     return
 
+Encounter()
 
-
-print(player)

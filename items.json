@@ -117,7 +117,7 @@
     "dict_enemies": {
         "Guard": {
             "name": "Guard",
-            "name_print": "",
+            "name_print": "simple_colors.blue('Guard',['bold'])",
             "base_hp": 100,
             "weight": 1
             
@@ -125,7 +125,7 @@
         
         "Prisoner":{
             "name": "Prisoner",
-            "name_print": "",
+            "name_print": "simple_colors.yellow('Prisoner',['bold'])",
             "base_hp": 100,
             "weight": 1
         }
