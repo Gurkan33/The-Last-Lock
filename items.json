@@ -10,7 +10,7 @@
                 "Sword": {
                     "name": "sword",
                     "base_dmg": 15,
-                    "weight": 101000000
+                    "weight": 10
                 },
                 "Dagger": {
                     "name": "dagger",
@@ -116,7 +116,7 @@
     },
     "dict_enemies": {
         "Guard": {
-            "name": "guard",
+            "name": "Guard",
             "name_print": "",
             "base_hp": 100,
             "weight": 1

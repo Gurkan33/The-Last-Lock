@@ -17,8 +17,6 @@ rareties = dict_of_items["dict_rareties"]
 items_weapons = dict_of_items["dict_items"]["type"]["weapons"]
 enemies = dict_of_items["dict_enemies"]
 
-inventory_max_size = 3
-
 items_weapons_weight = []
 rareties_weight = []
 enemies_weight = []
@@ -105,7 +103,7 @@ class enemy_class:
         self.name = enemies[enemy_key]["name"]
         self.difficulty = cons.difficulty
         self.weapon = enemy_weapon #Kanske en item? Eller custom item?
-        self.hp = cons.enemy_hp
+        self.hp = enemies[enemy_key]["base_hp"]
         self.dmg = ""
 
     def __str__(self):
@@ -293,13 +291,13 @@ Would you like to claim this item?
         if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice") == True:
             if chosen_input == "1":
 
-                if len(player.inventory) <= inventory_max_size:
+                if len(player.inventory) <= cons.inventory_max_size:
                     player.inventory.append(chest_item)
                     print(f"""{chest_item}
 has ben added to your inventory""")
                     break
 
-                elif len(player.inventory) > inventory_max_size:
+                elif len(player.inventory) > cons.inventory_max_size:
                     print("""You do not have enough space in your inventory 
 would you like to delet an item
 [1] Yes
