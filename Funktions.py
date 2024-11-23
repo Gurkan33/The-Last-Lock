@@ -6,6 +6,7 @@ import TextOchGubbar
 import pathlib
 import os
 import constants as cons
+import ASCII_art as ASCII
 
 #------------------------------------------------------#
 #Variables
@@ -76,7 +77,7 @@ class player_class:
         return int(self.equiped.dmg + cons.base_dmg_per_level[self.level-1])
     
     def total_inventory_len(self):
-        return len(self.inventory_weapons) +  len(self.inventory_utilities)
+        return int(len(self.inventory_weapons) + len(self.inventory_utilities))-1
     
     def __str__(self):
         name_print = f"""
@@ -143,8 +144,7 @@ def player_Manager():
     
     while True:
         os.system('cls')
-
-        print(TextOchGubbar.player_text)
+        print(ASCII.text("PLAYER"))
         print(player)
         print("""\n\n What do you want to do?
     [1] Equip an item
@@ -158,21 +158,21 @@ def player_Manager():
             if chosen_rout == "1": #Equipar ett föremål
                 os.system('cls')
 
-                print(TextOchGubbar.inventory)
+                print(ASCII.text("INVENTORY"))
                 print("Witch item do you want to equip?")
-                for i in range(0, player.total_inventory_len):
+                for i in range(0, player.total_inventory_len()):
                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
 
                 print("([Any key] to cancel!)\n")
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
-                if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len, "Your choice isn't in the inventory!") == True:
+                if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len(), "Your choice isn't in the inventory!") == True:
                     os.system('cls')
                     
                     chosen_item_index = int(chosen_item_index)
                     player.inventory_weapons.append(player.equiped)
                     player.equiped =  player.inventory_weapons.pop(chosen_item_index-1)
-                    print(TextOchGubbar.player_text)
+                    print(ASCII.text("PLAYER"))
                     print(player)
                     break
 
@@ -180,22 +180,22 @@ def player_Manager():
             if chosen_rout == "2": #Tar bort en item av spelarens val ifrån inventoryt
                 os.system('cls')
 
-                print(TextOchGubbar.inventory)
+                print(ASCII.text("INVENTORY"))
                 print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
-                for i in range(0, player.total_inventory_len):
+                for i in range(0, player.total_inventory_len()):
                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
 
                 print("([Any key] to cancel!)\n")
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
-                if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len, "Your choice isn't in the inventory!") == True:
+                if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len(), "Your choice isn't in the inventory!") == True:
                     os.system('cls')
 
                     chosen_item_index = int(chosen_item_index)
 
                     print(simple_colors.red("You removed ") + str(player.inventory_weapons.pop(chosen_item_index-1)) + simple_colors.red(" from your inventory\n"))
                     
-                    for i in range(0, player.total_inventory_len):
+                    for i in range(0, player.total_inventory_len()):
                         print(f"{i+1}. \n{player.inventory_weapons[i]}")
                     break
                         
@@ -210,7 +210,7 @@ def player_Manager():
 def chooseDoor():
     os.system('cls')
 
-    print(TextOchGubbar.doors)
+    print(ASCII.text("DOORS"))
 
     print("""Which door do you want to open?
 [1] Door 1
@@ -271,8 +271,8 @@ def Trap():
         print("\nYour health is now " + simple_colors.red(str(player.hp),["bold"]) + " hp")
 
     elif random_Trap == 3:
-        if player.total_inventory_len > 0:
-            random_invetory_index = rand.randint(1, player.total_inventory_len) 
+        if player.total_inventory_len() > 0:
+            random_invetory_index = rand.randint(1, player.total_inventory_len()) 
             print(simple_colors.red(f"""Where is my weapon?
 You lost your:
 {player.equiped.pop(random_invetory_index-1)}
@@ -301,13 +301,13 @@ Would you like to claim this item?
         if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice") == True:
             if chosen_input == "1":
 
-                if player.total_inventory_len <= cons.inventory_max_size:
+                if player.total_inventory_len() <= cons.inventory_max_size:
                     player.inventory_weapons.append(chest_item)
                     print(f"""{chest_item}
 has ben added to your inventory""")
                     break
 
-                elif player.total_inventory_len > cons.inventory_max_size:
+                elif player.total_inventory_len() > cons.inventory_max_size:
                     print("""You do not have enough space in your inventory 
 would you like to delet an item
 [1] Yes
@@ -317,20 +317,20 @@ would you like to delet an item
                     if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice") == True:
                         if chosen_input == "1":
 
-                            print(TextOchGubbar.inventory)
+                            print(ASCII.text("INVENTORY"))
 
                             print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
                             print(f"""Item from chest:
 {chest_item}""")
 
-                            for i in range(0, player.total_inventory_len):
+                            for i in range(0, player.total_inventory_len()):
                                 print(f"{i+1}. \n{player.inventory_weapons[i]}")
 
                             print("([Any key] to cancel!)\n")
 
                             chosen_item_index = input(simple_colors.blue("-->",["bold"]))
 
-                            if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len, "Your choice isn't in the inventory!") == True:
+                            if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len(), "Your choice isn't in the inventory!") == True:
                                 chosen_item_index = int(chosen_item_index)
 
                                 print(simple_colors.red("Du tog bort ") + str(player.inventory_weapons.pop(chosen_item_index-1)) + simple_colors.red(" från ditt invetory!\n"))
@@ -340,7 +340,7 @@ has ben added to your inventory
 """)
                                 player.inventory_weapons.append(chest_item)
 
-                                for i in range(0, player.total_inventory_len):
+                                for i in range(0, player.total_inventory_len()):
                                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
                                 break
 
@@ -364,7 +364,7 @@ was left behind
 def Encounter():
     os.system('cls')
     
-    print(TextOchGubbar.enemy)
+    print(ASCII.text("ENEMY"))
     enemy = generate_enemy()
 
     print(simple_colors.red(f"""Ohh you enountered a {eval(enemies[enemy.key]["name_print"])}
@@ -372,10 +372,14 @@ def Encounter():
 
     print(enemy)
 
-    print(TextOchGubbar.VS)
+    print(ASCII.text("VS"))
 
     return
 
-Encounter()
+# Encounter()
 
-print(generate_enemy())
+# print(generate_enemy())
+
+# player.inventory_utilities.append(generate_item)
+
+# print(player.total_inventory_len())

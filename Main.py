@@ -18,9 +18,10 @@ import TextOchGubbar
 import SystemFunktions
 import Funktions
 import os
+import ASCII_art as ASCII
 
 
-print(TextOchGubbar.rubrik + "\n\n")
+print(ASCII.text("THE LAST LOCK"))
 
 print(simple_colors.red("Welcome to The Last Lock!",["bold","underlined"]))
 print(simple_colors.red("""Your now locked in a prison and have to fight your way out of it!
