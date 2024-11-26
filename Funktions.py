@@ -77,7 +77,7 @@ class player_class:
         return int(self.equiped.dmg + cons.base_dmg_per_level[self.level-1])
     
     def total_inventory_len(self):
-        return int(len(self.inventory_weapons) + len(self.inventory_utilities))-1
+        return int(len(self.inventory_weapons) + len(self.inventory_utilities))
     
     def __str__(self):
         name_print = f"""
@@ -321,7 +321,8 @@ would you like to delet an item
 
                             print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
                             print(f"""Item from chest:
-{chest_item}""")
+{chest_item}
+""")
 
                             for i in range(0, player.total_inventory_len()):
                                 print(f"{i+1}. \n{player.inventory_weapons[i]}")
