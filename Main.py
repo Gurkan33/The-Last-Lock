@@ -20,6 +20,7 @@ import Funktions
 import os
 import ASCII_art as ASCII
 
+os.system('cls')
 
 print(ASCII.text("THE LAST LOCK"))
 
@@ -45,7 +46,7 @@ while True:
         print("")
 
     print("""Chose what you wish to do!
-    [1] Looka at player info
+    [1] Look at player info
     [2] Chose a door""")
 
     

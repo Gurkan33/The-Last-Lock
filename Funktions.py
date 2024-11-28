@@ -38,12 +38,12 @@ for i in range(0, len(list(enemies))):
 class item_class:
     def __init__(self, item, rarity, dmg):
         self.key = item
-        self.item = items_weapons[item]["name"]
+        self.name = items_weapons[item]["name"]
         self.rarity = rarity
         self.dmg = dmg
     
     def __str__(self):
-        return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.item)} 
+        return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
 dmg: {simple_colors.red(self.dmg)}"""
 
 #------------------------------------------------------#
@@ -81,7 +81,6 @@ class player_class:
     
     def __str__(self):
         name_print = f"""
-Difficulty: {self.difficulty}
 Name: {self.name} lvl {self.level}
 hp: {self.hp}
 Total dmg: {self.total_dmg()}
@@ -113,12 +112,12 @@ class enemy_class:
         self.difficulty = cons.difficulty
         self.weapon = enemy_weapon #Kanske en item? Eller custom item?
         self.hp = enemies[enemy_key]["base_hp"]
-        self.dmg = ""
-
+    
+    def total_dmg(self):
+        return int(self.weapon)
 
     def __str__(self):
         enemy_print =f"""
-Difficulty: {self.difficulty}
 Name: {self.name}
 hp: {self.hp}
 weapon: {self.weapon}"""
@@ -369,15 +368,48 @@ def Encounter():
     enemy = generate_enemy()
 
     print(simple_colors.red(f"""Ohh you enountered a {eval(enemies[enemy.key]["name_print"])}
-    Take him down and move forward in the prison!"""))
+    """) + simple_colors.red("Take him down to move forward in the prison!"))
 
     print(enemy)
 
-    print(ASCII.text("VS"))
+    print(ASCII.text("vs"))
 
-    return
+    print(f"""Name: {player.name}
+Equiped: {player.equiped}
+Dmg: {player.total_dmg()}
+Hp: {player.hp}""")
 
-# Encounter()
+    while True:
+        print("""What do you wish to do?
+[1] Fight
+[2] Flee
+""")
+        
+        chosen_input = input(simple_colors.blue("-->",["bold"]))
+        if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice"):
+            if(chosen_input == "2"):
+                break
+            elif(chosen_input == "1"):
+                    
+
+                dmg_player = player.total_dmg()
+                enemy.hp = enemy.hp - dmg_player
+                
+                print(f"""You hit the {eval(enemies[enemy.key]["name_print"])} with your {player.equiped.name}
+and did {simple_colors.red(f"{dmg_player} dmg")}. 
+The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
+""")
+                dmg_enemy = enemy.
+                player.hp = player.hp - dmg_enemy
+
+                print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {enemy.weapon}
+and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
+Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
+""")                
+
+
+
+Encounter()
 
 # print(generate_enemy())
 
