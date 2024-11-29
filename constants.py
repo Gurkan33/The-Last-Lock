@@ -1,10 +1,12 @@
 
 max_hp = 100
 difficulty = 1
-base_dmg_per_level = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
+player_base_dmg_per_level = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
 inventory_max_size = 3
-flee_chance = 10
+player_speed = 10
+player_accuracy = 10
 
+enemy_base_dmg_per_level = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
 enemy_hp = 100 #genomsnittlig
 
 trap1_weight = 20

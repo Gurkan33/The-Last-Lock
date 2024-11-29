@@ -35,7 +35,7 @@ for i in range(0, len(list(enemies))):
 #------------------------------------------------------#
 #Makes item a class
 
-class item_class:
+class item_weapon_class:
     def __init__(self, item, rarity, dmg):
         self.key = item
         self.name = items_weapons[item]["name"]
@@ -44,7 +44,7 @@ class item_class:
     
     def __str__(self):
         return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
-dmg: {simple_colors.red(self.dmg)}"""
+dmg: {simple_colors.red("+" + str(self.dmg))}"""
 
 #------------------------------------------------------#
 #Generate item
@@ -59,7 +59,7 @@ def generate_item():
 
     dmg = dmg + rand.randint(rareties[rarity]["dmg_lower"], rareties[rarity]["dmg_upper"])
     
-    return item_class(weapon, rareties[rarity]["name"], dmg)
+    return item_weapon_class(weapon, rareties[rarity]["name"], dmg)
 
 #------------------------------------------------------#  
 #Player
@@ -67,23 +67,31 @@ class player_class:
     def __init__(self):
         self.name = ""
         self.difficulty = cons.difficulty
-        self.equiped = item_class(list(items_weapons)[0], rareties[list(rareties)[-1]]["name"], 3)
+        self.equiped = item_weapon_class(list(items_weapons)[0], rareties[list(rareties)[-1]]["name"], 3)
         self.inventory_weapons = []
         self.inventory_utilities = []
         self.hp = cons.max_hp
         self.level = 1
+        self.speed = cons.player_speed
+        self.accuracy = cons.player_accuracy
         
     def total_dmg(self):
-        return int(self.equiped.dmg + cons.base_dmg_per_level[self.level-1])
+        return int(self.equiped.dmg + cons.player_base_dmg_per_level[self.level-1])
     
     def total_inventory_len(self):
         return int(len(self.inventory_weapons) + len(self.inventory_utilities))
+    
+    def total_inventory(self):
+        total_inv = []
+        total_inv.append(self.inventory_weapons)
+        total_inv.append(self.inventory_utilities)
+        return total_inv
     
     def __str__(self):
         name_print = f"""
 Name: {self.name} lvl {self.level}
 hp: {self.hp}
-Total dmg: {self.total_dmg()}
+Total dmg: {simple_colors.red(self.total_dmg())}
 
 Equipped item: 
 {self.equiped}
@@ -112,9 +120,11 @@ class enemy_class:
         self.difficulty = cons.difficulty
         self.weapon = enemy_weapon #Kanske en item? Eller custom item?
         self.hp = enemies[enemy_key]["base_hp"]
+        self.speed = enemies[enemy_key]["speed"]
+        self.accuracy = enemies[enemy_key]["accuracy"]
     
     def total_dmg(self):
-        return int(self.weapon)
+        return int(self.weapon.dmg + cons.enemy_base_dmg_per_level[self.level-1])
 
     def __str__(self):
         enemy_print =f"""
@@ -239,9 +249,8 @@ def chooseDoor():
 #Funktion för att välja typ av rum
 
 def door_randomizer():
-    random_door = rand.choices([1, 2, 3], [cons.door_trap, cons.door_chest, cons.door_enemy], k = 1)[0]
+    random_num = rand.choices([1, 2, 3], [cons.door_trap, cons.door_chest, cons.door_enemy], k = 1)[0]
 
-    random_num = rand.randint(1,3)
     if random_num == 1:
         Trap()
     elif random_num == 2:
@@ -271,11 +280,21 @@ def Trap():
 
     elif random_Trap == 3:
         if player.total_inventory_len() > 0:
-            random_invetory_index = rand.randint(1, player.total_inventory_len()) 
+            random_invetory_index = rand.randint(0, player.total_inventory_len()-1)
+            item_index_lost_by_trap = int()
+
+            if random_invetory_index <= len(player.inventory_weapons):
+                item_index_lost_by_trap = random_invetory_index
+                item_lost_by_trap = player.inventory_weapons.pop(item_index_lost_by_trap)
+
+            elif random_invetory_index > len(player.inventory_weapons):
+                item_index_lost_by_trap = player.total_inventory_len - player.inventory_weapons
+                item_lost_by_trap = player.inventory_utilities.pop(item_index_lost_by_trap)
+
             print(simple_colors.red(f"""Where is my weapon?
 You lost your:
-{player.equiped.pop(random_invetory_index-1)}
-""")) + simple_colors.red("from you inventory to a pickpocket while having lunch!")
+{item_lost_by_trap}
+""") + simple_colors.red("from you inventory to a pickpocket while having lunch!"))
         else:
             print(simple_colors.red("A pickpocket tried to steal from you but found nothing"))
 
@@ -388,28 +407,55 @@ Hp: {player.hp}""")
         chosen_input = input(simple_colors.blue("-->",["bold"]))
         if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice"):
             if(chosen_input == "2"):
-                break
-            elif(chosen_input == "1"):
+                flee_result = rand.choices([1, 2], [player.speed, enemy.speed], k = 1)[0]
+
+                if flee_result == 1:
+                    print(simple_colors.red("You managed to flee! Recover your health and try again later!", ["bold"]))
+                    break
+                elif flee_result == 2:
+                    print(simple_colors.red("You didn't manage to flee, you need to fight your way out of this!", ["bold"]))
+            else:
                     
 
                 dmg_player = player.total_dmg()
-                enemy.hp = enemy.hp - dmg_player
                 
-                print(f"""You hit the {eval(enemies[enemy.key]["name_print"])} with your {player.equiped.name}
+                hit_result = rand.choices([1, 2], [player.accuracy, enemy.speed], k = 1)[0]
+                
+                if hit_result == 1:
+                    enemy.hp = enemy.hp - dmg_player
+                    print(f"""You hit the {eval(enemies[enemy.key]["name_print"])} with your {eval(rareties[player.equiped.rarity]["name_print"])} {simple_colors.black(player.equiped.name)}
 and did {simple_colors.red(f"{dmg_player} dmg")}. 
 The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
 """)
-                dmg_enemy = enemy.
-                player.hp = player.hp - dmg_enemy
+                else:
+                    print(simple_colors.red("You missed your strike!",["bold"]))
+                    
+                
+                if enemy.hp < 0:
+                    print(f"""Yes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
+                    player.level += 1
+                    break
 
-                print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {enemy.weapon}
+                dmg_enemy = enemy.weapon.dmg
+                
+                hit_result = rand.choices([1, 2], [enemy.accuracy, player.speed], k = 1)[0]
+
+                if hit_result == 1:
+                    player.hp = player.hp - dmg_enemy
+                    print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {eval(rareties[enemy.weapon.rarity]["name_print"])} {simple_colors.black(enemy.weapon.name)}
 and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
 Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
-""")                
+""")              
+                else:
+                    print(simple_colors.red(f"The {eval(enemies[enemy.key]["name_print"])} missed his strike!",["bold"]))
+                    
+                  
 
 
 
-Encounter()
+# Trap()
+
+# Encounter()
 
 # print(generate_enemy())
 

@@ -67,6 +67,11 @@
                     "base_dmg": 16,
                     "weight": 13
                 }
+            },
+            "consumable": {
+                "Bandaid": {
+                    "heal": 10
+                }
             }
         }
     },
@@ -119,14 +124,18 @@
             "name": "Guard",
             "name_print": "simple_colors.blue('Guard',['bold'])",
             "base_hp": 100,
-            "weight": 1
+            "weight": 1,
+            "speed": 7,
+            "accuracy": 60
             
         },
         "Prisoner":{
             "name": "Prisoner",
             "name_print": "simple_colors.yellow('Prisoner',['bold'])",
             "base_hp": 100,
-            "weight": 1
+            "weight": 1,
+            "speed": 10,
+            "accuracy": 50
         }
     }
 }   
