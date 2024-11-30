@@ -74,6 +74,7 @@ class player_class:
         self.level = 1
         self.speed = cons.player_speed
         self.accuracy = cons.player_accuracy
+        self.door_key = False
         
     def total_dmg(self):
         return int(self.equiped.dmg + cons.player_base_dmg_per_level[self.level-1])
@@ -221,11 +222,11 @@ def chooseDoor():
 
     print(ASCII.text("DOORS"))
 
-    print("""Which door do you want to open?
+    print(f"""Which door do you want to open?
 [1] Door 1
 [2] Door 2
 [3] Door 3
-[4] Door 4
+[4] {simple_colors.blue("Door 4",["italic"])}
           
 [5] Go back""")
     
@@ -239,8 +240,8 @@ def chooseDoor():
         elif chosen_rout == "3":
             door_randomizer()
         elif chosen_rout == "4":
-            ""
-            #if player.key == True
+            if player.door_key == True:
+                fourth_door()
         elif chosen_rout == "5":
             ""
             #Exit  
@@ -434,6 +435,10 @@ The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
                 if enemy.hp < 0:
                     print(f"""Yes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
                     player.level += 1
+                    if player.level == 10:
+                        player.door_key = True
+                        print(simple_colors.red(f"""
+Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key to the {simple_colors.blue("fourth door!",["italic"])}""",["bold"]))
                     break
 
                 dmg_enemy = enemy.weapon.dmg
@@ -445,9 +450,16 @@ The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
                     print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {eval(rareties[enemy.weapon.rarity]["name_print"])} {simple_colors.black(enemy.weapon.name)}
 and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
 Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
-""")              
+""")                
                 else:
                     print(simple_colors.red(f"The {eval(enemies[enemy.key]["name_print"])} missed his strike!",["bold"]))
+
+                if player.hp < 0:
+                    print(f"""You died, and lost all your stuff!""")
+                    exit() #-------------------------------------------------------------#Dödar programmet!
+
+def fourth_door():
+    print("""You have entered the """)
                     
                   
 
