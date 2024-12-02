@@ -34,7 +34,7 @@ for i in range(0, len(list(enemies))):
 
 
 #------------------------------------------------------#
-#Makes item a class
+#Makes weapon item a class
 
 class item_weapon_class:
     def __init__(self, item, rarity, dmg):
@@ -46,6 +46,12 @@ class item_weapon_class:
     def __str__(self):
         return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
 dmg: {simple_colors.red("+" + str(self.dmg))}"""
+
+
+
+class item_consumable_class:
+    def __init__(self) -> None:
+        pass
 
 #------------------------------------------------------#
 #Generate item
@@ -243,6 +249,8 @@ def chooseDoor():
         elif chosen_rout == "4":
             if player.door_key == True:
                 fourth_door()
+            else:
+                print(simple_colors.red("\nYou dont have the key\n",["bold"]))
         elif chosen_rout == "5":
             ""
             #Exit  
@@ -440,7 +448,7 @@ Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key
 """)
                 else:
                     print(simple_colors.red("You missed your strike!\n",["bold"]))
-
+                        
 
                 time.sleep(1)
 
@@ -542,7 +550,7 @@ def fourth_door():
             print(simple_colors.red(f"The Enemy missed his strike!\n",["bold"]))
 
         
-
+fourth_door()
 # Trap()
 
 # Encounter()
