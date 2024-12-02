@@ -477,7 +477,7 @@ def fourth_door():
     boss = enemy_class
 
     boss.hp = cons.boss_hp
-    boss.weapon = item_weapon_class(list(items_weapons)[7], rareties[list(rareties)[-2]]["name"], 25) # ändra bossens startvapen
+    boss.weapon = item_weapon_class(list(items_weapons)[7], rareties[list(rareties)[-2]]["name"], cons.boss_dmg) # ändra bossens startvapen
     boss.speed = cons.boss_speed
     boss.accuracy = cons.boss_accuracy
     boss.name = cons.boss_name
@@ -516,9 +516,11 @@ def fourth_door():
                     
         if hit_result == 1:
             boss.hp = boss.hp - dmg_player
-            if boss.hp <= 0:
+            if boss.hp <= 0: #------------------------------------YOU WIN THE GAME!----------------------------------------
                 print(f"""Yes! You took down the {simple_colors.red(boss.name)}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.
                       now your on free foot!""")
+                
+                print(TextOchGubbar.player_walk)
             
                 exit() #-------------------------------------------------------------#Dödar programmet!----------------------------------
             else:
@@ -550,7 +552,8 @@ def fourth_door():
             print(simple_colors.red(f"The Enemy missed his strike!\n",["bold"]))
 
         
-fourth_door()
+#fourth_door()
+
 # Trap()
 
 # Encounter()

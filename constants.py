@@ -18,6 +18,7 @@ door_chest = 1
 door_enemy = 1
 
 boss_hp = 200
+boss_dmg = 1 #--------------------Ändra!
 boss_speed = 10
 boss_accuracy = 10
 boss_name = "Final Guard"
