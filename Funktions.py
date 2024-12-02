@@ -33,7 +33,7 @@ for i in range(0, len(list(enemies))):
 
 
 #------------------------------------------------------#
-#Makes item a class
+#Makes weapon item a class
 
 class item_weapon_class:
     def __init__(self, item, rarity, dmg):
@@ -45,6 +45,12 @@ class item_weapon_class:
     def __str__(self):
         return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
 dmg: {simple_colors.red("+" + str(self.dmg))}"""
+
+
+
+class item_consumable_class:
+    def __init__(self) -> None:
+        pass
 
 #------------------------------------------------------#
 #Generate item
@@ -435,7 +441,7 @@ The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
                 if enemy.hp < 0:
                     print(f"""Yes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
                     player.level += 1
-                    if player.level == 10:
+                    if player.level >= 10:
                         player.door_key = True
                         print(simple_colors.red(f"""
 Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key to the {simple_colors.blue("fourth door!",["italic"])}""",["bold"]))
