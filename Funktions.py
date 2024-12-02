@@ -248,6 +248,8 @@ def chooseDoor():
         elif chosen_rout == "4":
             if player.door_key == True:
                 fourth_door()
+            else:
+                print(simple_colors.red("\nYou dont have the key\n",["bold"]))
         elif chosen_rout == "5":
             ""
             #Exit  
