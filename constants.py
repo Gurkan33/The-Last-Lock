@@ -16,3 +16,8 @@ trap3_weight = 1
 door_trap = 1
 door_chest = 1
 door_enemy = 1
+
+boss_hp = 200
+boss_speed = 10
+boss_accuracy = 10
+boss_name = "Final Guard"

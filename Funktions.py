@@ -5,6 +5,7 @@ import SystemFunktions
 import TextOchGubbar
 import pathlib
 import os
+import time
 import constants as cons
 import ASCII_art as ASCII
 
@@ -417,6 +418,7 @@ Hp: {player.hp}""")
                     print(simple_colors.red("You didn't manage to flee, you need to fight your way out of this!", ["bold"]))
             else:
                     
+                time.sleep(1)
 
                 dmg_player = player.total_dmg()
                 
@@ -424,22 +426,23 @@ Hp: {player.hp}""")
                 
                 if hit_result == 1:
                     enemy.hp = enemy.hp - dmg_player
+                    if enemy.hp <= 0: # Kollar ifall fienden dog
+                        print(f"""Yes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
+                        player.level += 1
+                        if player.level == 10:
+                            player.door_key = True
+                            print(simple_colors.red(f"""
+Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key to the {simple_colors.blue("fourth door!",["italic"])}""",["bold"]))
+                        break
                     print(f"""You hit the {eval(enemies[enemy.key]["name_print"])} with your {eval(rareties[player.equiped.rarity]["name_print"])} {simple_colors.black(player.equiped.name)}
-and did {simple_colors.red(f"{dmg_player} dmg")}. 
-The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
+    and did {simple_colors.red(f"{dmg_player} dmg")}. 
+    The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
 """)
                 else:
-                    print(simple_colors.red("You missed your strike!",["bold"]))
-                    
-                
-                if enemy.hp < 0:
-                    print(f"""Yes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
-                    player.level += 1
-                    if player.level == 10:
-                        player.door_key = True
-                        print(simple_colors.red(f"""
-Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key to the {simple_colors.blue("fourth door!",["italic"])}""",["bold"]))
-                    break
+                    print(simple_colors.red("You missed your strike!\n",["bold"]))
+
+
+                time.sleep(1)
 
                 dmg_enemy = enemy.weapon.dmg
                 
@@ -447,23 +450,98 @@ Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key
 
                 if hit_result == 1:
                     player.hp = player.hp - dmg_enemy
-                    print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {eval(rareties[enemy.weapon.rarity]["name_print"])} {simple_colors.black(enemy.weapon.name)}
-and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
-Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
-""")                
+                    if player.hp <= 0: # Kollar ifall spelaren dog
+                        print(f"""You died, and lost all your stuff!""")
+                        exit() #-------------------------------------------------------------#Dödar programmet!
+                    else:
+                        print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {eval(rareties[enemy.weapon.rarity]["name_print"])} {simple_colors.black(enemy.weapon.name)}
+    and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
+    Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
+    """)                
                 else:
-                    print(simple_colors.red(f"The {eval(enemies[enemy.key]["name_print"])} missed his strike!",["bold"]))
+                    print(simple_colors.red(f"The {eval(enemies[enemy.key]["name_print"])} missed his strike!\n",["bold"]))
 
-                if player.hp < 0:
-                    print(f"""You died, and lost all your stuff!""")
-                    exit() #-------------------------------------------------------------#Dödar programmet!
+                
 
 def fourth_door():
-    print("""You have entered the """)
+
+    #----------------------------------- skapar boss enemy
+    boss = enemy_class
+
+    boss.hp = cons.boss_hp
+    boss.weapon = item_weapon_class(list(items_weapons)[7], rareties[list(rareties)[-2]]["name"], 25) # ändra bossens startvapen
+    boss.speed = cons.boss_speed
+    boss.accuracy = cons.boss_accuracy
+    boss.name = cons.boss_name
+    #-----------------------------------
+
+
+
+
+    print(simple_colors.blue(ASCII.text("DOOR 4")))
+    print(simple_colors.red(f"""You have entered the {simple_colors.blue("fourth door",["italic"])} {simple_colors.red("""!
+    Here you will face the last obstacle before escaping the prison!""")}
+                            
+                            """))
+    i = True
+    while i == True: #En sista chas att kolla inventoryt
+        print(f"""Chose what you wish to do!
+        [1] Look at player info
+        [2] {simple_colors.red("Take on the fight",["bold"])}""")
+
+        
+        chosen_rout = input(simple_colors.blue("-->",["bold"]))
+        if SystemFunktions.valid_user_choice(chosen_rout, 2, "multiChoice") == True:
+            if chosen_rout == "1":
+                player_Manager()
+                
+
+            elif chosen_rout == "2":
+                i = False
+    
+    while True:
+        time.sleep(1)
+
+        dmg_player = player.total_dmg()
                     
-                  
+        hit_result = rand.choices([1, 2], [player.accuracy, boss.speed], k = 1)[0]
+                    
+        if hit_result == 1:
+            boss.hp = boss.hp - dmg_player
+            if boss.hp <= 0:
+                print(f"""Yes! You took down the {simple_colors.red(boss.name)}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.
+                      now your on free foot!""")
+            
+                exit() #-------------------------------------------------------------#Dödar programmet!----------------------------------
+            else:
+                print(f"""You hit the {simple_colors.red(boss.name)} with your {eval(rareties[player.equiped.rarity]["name_print"])} {simple_colors.black(player.equiped.name)}
+    and did {simple_colors.red(f"{dmg_player} dmg")}. 
+    The enemy hp is now : {simple_colors.green(f"{boss.hp}hp")}
+        """)
+        else:
+            print(simple_colors.red("You missed your strike!\n",["bold"]))
+                        
 
+        time.sleep(1)
 
+        dmg_enemy = boss.weapon.dmg
+                    
+        hit_result = rand.choices([1, 2], [boss.accuracy, player.speed], k = 1)[0]
+
+        if hit_result == 1:
+            player.hp = player.hp - dmg_enemy
+            if player.hp <= 0:
+                print(f"""You died, and lost all your stuff!""")
+                exit() #-------------------------------------------------------------#Dödar programmet!----------------------------------
+            else:
+                print(f"""The {simple_colors.red(boss.name)} hit you with a {eval(rareties[boss.weapon.rarity]["name_print"])} {simple_colors.black(boss.weapon.name)}
+    and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
+    Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
+        """)                
+        else:
+            print(simple_colors.red(f"The Enemy missed his strike!\n",["bold"]))
+
+        
 
 # Trap()
 
