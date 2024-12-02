@@ -17,6 +17,8 @@ with open(str(pathlib.Path(__file__).parent.resolve())  + "\items.json") as file
 
 rareties = dict_of_items["dict_rareties"]
 items_weapons = dict_of_items["dict_items"]["type"]["weapons"]
+items_consumables = dict_of_items["dict_items"]["type"]["consumable"]
+item_types = dict_of_items["dict_items"]["type"]
 enemies = dict_of_items["dict_enemies"]
 
 items_weapons_weight = []
@@ -49,16 +51,25 @@ dmg: {simple_colors.red("+" + str(self.dmg))}"""
 
 
 
+#------------------------------------------------------#
+#Makes consumable item a class
+
+
 class item_consumable_class:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, item) -> None:
+        self.key = item
+        self.name = items_consumables[item]["name"]
+        self.type = items_consumables[item]["type"]
+        self.modifier = items_consumables[item]["modifier"]
 
 #------------------------------------------------------#
 #Generate item
 
 def generate_item():
-    
-    weapon = rand.choices(list(items_weapons), weights=items_weapons_weight, k = 1)[0]
+
+    item_type = rand.choices(list(item_types), weights = [1, 1], k = 1)[0]
+
+    weapon = rand.choices(list(items_weapons), weights = items_weapons_weight, k = 1)[0]
 
     dmg = items_weapons[weapon]["base_dmg"]
     
