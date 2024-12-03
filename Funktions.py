@@ -46,8 +46,8 @@ class item_weapon_class:
         self.dmg = dmg
     
     def __str__(self):
-        return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
-dmg: {simple_colors.red("+" + str(self.dmg))}"""
+        return f"""  {eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
+  dmg: {simple_colors.red("+" + str(self.dmg))}"""
 
 
 
@@ -109,7 +109,7 @@ class player_class:
     def __str__(self):
         name_print = f"""
 Name: {self.name} lvl {self.level}
-hp: {self.hp}
+hp: {simple_colors.green(self.hp)}
 Total dmg: {simple_colors.red(self.total_dmg())}
 
 Equipped item: 
@@ -187,11 +187,11 @@ def player_Manager():
                 os.system('cls')
 
                 print(ASCII.text("INVENTORY"))
-                print("Witch item do you want to equip?")
+                print(simple_colors.red("Witch item do you want to equip? ([Any key] to cancel!)"))
                 for i in range(0, player.total_inventory_len()):
                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
 
-                print("([Any key] to cancel!)\n")
+                print(simple_colors.red("([Any key] to cancel!)\n"))
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
                 if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len(), "Your choice isn't in the inventory!") == True:
@@ -213,7 +213,7 @@ def player_Manager():
                 for i in range(0, player.total_inventory_len()):
                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
 
-                print("([Any key] to cancel!)\n")
+                print(simple_colors.red("([Any key] to cancel!)\n"))
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
                 if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len(), "Your choice isn't in the inventory!") == True:
@@ -259,9 +259,10 @@ def chooseDoor():
             door_randomizer()
         elif chosen_rout == "4":
             if player.door_key == True:
-                fourth_door()
+                Fourth_door()
             else:
                 print(simple_colors.red("\nYou dont have the key\n",["bold"]))
+                time.sleep(1)
         elif chosen_rout == "5":
             ""
             #Exit  
@@ -404,7 +405,7 @@ was left behind
 def Encounter():
     os.system('cls')
     
-    print(ASCII.text("ENEMY"))
+    print(ASCII.text("ENCOUNTER"))
     enemy = generate_enemy()
 
     print(simple_colors.red(f"""Ohh you enountered a {eval(enemies[enemy.key]["name_print"])}
@@ -420,7 +421,7 @@ Dmg: {player.total_dmg()}
 Hp: {player.hp}""")
 
     while True:
-        print("""What do you wish to do?
+        print("""\nWhat do you wish to do?
 [1] Fight
 [2] Flee
 """)
@@ -446,7 +447,7 @@ Hp: {player.hp}""")
                 if hit_result == 1:
                     enemy.hp = enemy.hp - dmg_player
                     if enemy.hp <= 0: # Kollar ifall fienden dog
-                        print(f"""Yes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
+                        print(f"""\nYes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
                         player.level += 1
                         if player.level == 10:
                             player.door_key = True
@@ -470,6 +471,7 @@ Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key
                 if hit_result == 1:
                     player.hp = player.hp - dmg_enemy
                     if player.hp <= 0: # Kollar ifall spelaren dog
+                        print(simple_colors.red(ASCII.text("Defeat")))
                         print(f"""You died, and lost all your stuff!""")
                         exit() #-------------------------------------------------------------#Dödar programmet!
                     else:
@@ -482,7 +484,7 @@ Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key
 
                 
 
-def fourth_door():
+def Fourth_door():
 
     #----------------------------------- skapar boss enemy
     boss = enemy_class
@@ -504,7 +506,7 @@ def fourth_door():
                             """))
     i = True
     while i == True: #En sista chas att kolla inventoryt
-        print(f"""Chose what you wish to do!
+        print(f"""\nChose what you wish to do!
         [1] Look at player info
         [2] {simple_colors.red("Take on the fight",["bold"])}""")
 
@@ -563,7 +565,7 @@ def fourth_door():
             print(simple_colors.red(f"The Enemy missed his strike!\n",["bold"]))
 
         
-#fourth_door()
+#F
 
 # Trap()
 
