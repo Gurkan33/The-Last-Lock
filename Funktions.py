@@ -22,8 +22,13 @@ item_types = dict_of_items["dict_items"]["type"]
 enemies = dict_of_items["dict_enemies"]
 
 items_weapons_weight = []
+items_consumables_weight = []
 rareties_weight = []
 enemies_weight = []
+
+
+for i in range(0, len(list(items_consumables))):
+    items_consumables_weight.append(items_consumables[list(items_consumables)[i]]["weight"])
 
 for i in range(0, len(list(items_weapons))):
     items_weapons_weight.append(items_weapons[list(items_weapons)[i]]["weight"])
@@ -61,13 +66,34 @@ class item_consumable_class:
         self.name = items_consumables[item]["name"]
         self.type = items_consumables[item]["type"]
         self.modifier = items_consumables[item]["modifier"]
+    def __str__(self):
+        if self.type == "hp":
+            return f"""  {simple_colors.black(self.name)} 
+  +{simple_colors.green(self.modifier)} {simple_colors.green(self.type)}
+"""
+        elif self.type == "dmg":
+            return f"""  {simple_colors.black(self.name)} 
+  +{simple_colors.red(self.modifier)} {simple_colors.red(self.type)}
+"""
+        elif self.type == "speed":
+            return f"""{simple_colors.black(self.name)} 
+  +{self.modifier} {self.type}
+"""
+        elif self.type == "accuracy":
+            return f"""{simple_colors.black(self.name)} 
+  +{self.modifier} {self.type}
+"""
 
 #------------------------------------------------------#
 #Generate item
 
-def generate_item():
+def generate_item_consumables():
 
-    item_type = rand.choices(list(item_types), weights = [1, 1], k = 1)[0]
+    consumable = rand.choices(list(items_consumables), weights = items_consumables_weight, k = 1)[0]
+    
+    return item_consumable_class(consumable)
+
+def generate_item_weapon():
 
     weapon = rand.choices(list(items_weapons), weights = items_weapons_weight, k = 1)[0]
 
@@ -78,6 +104,20 @@ def generate_item():
     dmg = dmg + rand.randint(rareties[rarity]["dmg_lower"], rareties[rarity]["dmg_upper"])
     
     return item_weapon_class(weapon, rareties[rarity]["name"], dmg)
+
+
+
+def generate_item():
+    item_type = rand.choices(["weapons", "consumable"], weights=[1, 1], k = 1)[0]
+    if item_type == "weapons":
+        item = generate_item_weapon()
+
+    elif item_type == "consumable":
+        item = generate_item_consumables()
+
+    return [item, item_type]
+
+
 
 #------------------------------------------------------#  
 #Player
@@ -119,14 +159,14 @@ Inventory:
 {"\n".join(f"{index + 1}.\n{item_class}" for index, item_class in enumerate(self.inventory_weapons))}
 
 Utilities:
-
+{"\n".join(f"{index + 1}.\n{item_class}" for index, item_class in enumerate(self.inventory_utilities))}
 """
         return name_print
 
 player = player_class()
 
 for i in range(1, 5):
-    item = generate_item()
+    item = generate_item_weapon()
     player.inventory_weapons.append(item)
 
 #------------------------------------------------------# 
@@ -159,7 +199,7 @@ def generate_enemy():
 
     enemy_key = list(enemies)[rand.randint(0, len(enemies)-1)]
     
-    weapon = generate_item()
+    weapon = generate_item_weapon()
 
     return enemy_class(enemy_key, weapon)
 
@@ -169,7 +209,6 @@ def generate_enemy():
 
 def player_Manager():
 
-    
     while True:
         os.system('cls')
         print(ASCII.text("PLAYER"))
@@ -177,10 +216,11 @@ def player_Manager():
         print("""\n\n What do you want to do?
     [1] Equip an item
     [2] Delet an item
-    [3] Nothing""")
+    [3] Use Utilite
+    [4] Nothing""")
         chosen_rout = input(simple_colors.blue("-->",["bold"]))
         
-        if SystemFunktions.valid_user_choice(chosen_rout, 3, "multiChoice") == True:
+        if SystemFunktions.valid_user_choice(chosen_rout, 4, "multiChoice") == True:
 
 
             if chosen_rout == "1": #Equipar ett föremål
@@ -188,13 +228,13 @@ def player_Manager():
 
                 print(ASCII.text("INVENTORY"))
                 print(simple_colors.red("Witch item do you want to equip? ([Any key] to cancel!)"))
-                for i in range(0, player.total_inventory_len()):
+                for i in range(0, len(player.inventory_weapons)):
                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
 
                 print(simple_colors.red("([Any key] to cancel!)\n"))
 
                 chosen_item_index = input(simple_colors.blue("-->",["bold"]))
-                if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len(), "Your choice isn't in the inventory!") == True:
+                if SystemFunktions.valid_user_choice(chosen_item_index, len(player.inventory_weapons), "Your choice isn't in the inventory!") == True:
                     os.system('cls')
                     
                     chosen_item_index = int(chosen_item_index)
@@ -205,13 +245,17 @@ def player_Manager():
                     break
 
 
-            if chosen_rout == "2": #Tar bort en item av spelarens val ifrån inventoryt
+            elif chosen_rout == "2": #Tar bort en item av spelarens val ifrån inventoryt
                 os.system('cls')
 
                 print(ASCII.text("INVENTORY"))
                 print(simple_colors.red("What item do you want to delete? ([Any key] to cancel!)"))
-                for i in range(0, player.total_inventory_len()):
+
+                for i in range(0, player.total_inventory_len() - len(player.inventory_utilities)):
                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
+
+                for i in range(0, player.total_inventory_len() - len(player.inventory_weapons)):
+                    print(f"{i + 1 + len(player.inventory_weapons)}. \n{player.inventory_utilities[i]}")
 
                 print(simple_colors.red("([Any key] to cancel!)\n"))
 
@@ -221,14 +265,60 @@ def player_Manager():
 
                     chosen_item_index = int(chosen_item_index)
 
-                    print(simple_colors.red("You removed ") + str(player.inventory_weapons.pop(chosen_item_index-1)) + simple_colors.red(" from your inventory\n"))
+                    if chosen_item_index <= len(player.inventory_weapons):
+                        print(simple_colors.red("You removed ") + str(player.inventory_weapons.pop(chosen_item_index-1)) + simple_colors.red(" from your inventory\n"))
                     
-                    for i in range(0, player.total_inventory_len()):
+                    elif chosen_item_index > len(player.inventory_weapons):
+                        print(simple_colors.red("You removed ") + str(player.inventory_utilities.pop(chosen_item_index - len(player.inventory_weapons) - 1)) + simple_colors.red(" from your inventory\n"))
+                    
+                    
+                    for i in range(0, len(player.inventory_weapons)):
                         print(f"{i+1}. \n{player.inventory_weapons[i]}")
+
+                    for i in range(0, len(player.inventory_utilities)):
+                        print(f"{i + 1 + len(player.inventory_weapons)}. \n{player.inventory_utilities[i]}")
+
+                    break
+
+            elif chosen_rout == "3":
+                os.system('cls')
+
+                print(ASCII.text("INVENTORY"))
+                print(simple_colors.red("What item do you want to use?"))
+                for i in range(0, len(player.inventory_utilities)):
+                    print(f"{i+1}. \n{player.inventory_utilities[i]}")
+
+                print(simple_colors.red("([Any key] to cancel!)\n"))
+
+                chosen_item_index = input(simple_colors.blue("-->",["bold"]))
+                if SystemFunktions.valid_user_choice(chosen_item_index, len(player.inventory_utilities), "Your choice isn't in the inventory!") == True:
+                    os.system('cls')
+
+                    chosen_item_index = int(chosen_item_index)
+                    item_used = player.inventory_utilities.pop(chosen_item_index - 1)
+
+                    print(f"You used {item_used}")
+
+                    if item_used.type == "hp":
+                        player.hp += item_used.modifier
+                        print(f"Player hp is now +{10}")
+
+                    elif item_used.type == "dmg":
+                        player.equiped.dmg += item_used.modifier
+                        print(f"Player equiped item is now +{10} dmg")
+
+                    elif item_used.type == "speed":
+                        player.hp += item_used.modifier
+                        print(f"Player speed is now +{10}")
+
+                    elif item_used.type == "accuracy":
+                        player.hp += item_used.modifier
+                        print(f"Player accuracy is now +{10}")
+                        
+                    
                     break
                         
-
-            if chosen_rout == "3": # Break
+            elif chosen_rout == "4": # Break
                 os.system('cls')
                 break
 
@@ -330,6 +420,9 @@ def Chest():
     os.system('cls')
 
     chest_item = generate_item()
+    chest_item_type = chest_item[1]
+    chest_item = chest_item[0]
+
     print(F"""You have found a chest containing a:
 {chest_item}
 Would you like to claim this item?
@@ -342,7 +435,11 @@ Would you like to claim this item?
             if chosen_input == "1":
 
                 if player.total_inventory_len() <= cons.inventory_max_size:
-                    player.inventory_weapons.append(chest_item)
+                    if chest_item_type == "weapons":
+                        player.inventory_weapons.append(chest_item)
+                    elif chest_item_type == "consumable":
+                        player.inventory_utilities.append(chest_item)
+                    
                     print(f"""{chest_item}
 has ben added to your inventory""")
                     break
@@ -374,15 +471,23 @@ would you like to delet an item
                             if SystemFunktions.valid_user_choice(chosen_item_index, player.total_inventory_len(), "Your choice isn't in the inventory!") == True:
                                 chosen_item_index = int(chosen_item_index)
 
-                                print(simple_colors.red("Du tog bort ") + str(player.inventory_weapons.pop(chosen_item_index-1)) + simple_colors.red(" från ditt invetory!\n"))
+                                print(simple_colors.red("Du tog bort \n") + str(player.inventory_weapons.pop(chosen_item_index-1)) + simple_colors.red(" från ditt invetory!\n"))
                                 
                                 print(f"""{chest_item}
 has ben added to your inventory
 """)
-                                player.inventory_weapons.append(chest_item)
+                                if chest_item_type == "weapons":
+                                    player.inventory_weapons.append(chest_item)
+                                elif chest_item_type == "consumable":
+                                    player.inventory_utilities.append(chest_item)
 
-                                for i in range(0, player.total_inventory_len()):
+                                print("Weapons")
+                                for i in range(0, len(player.inventory_weapons)):
                                     print(f"{i+1}. \n{player.inventory_weapons[i]}")
+                                
+                                print("Utilites")
+                                for i in range(0, len(player.inventory_utilities)):
+                                    print(f"{i+1}. \n{player.inventory_utilities[i]}")
                                 break
 
                         elif chosen_input == "2":

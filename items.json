@@ -71,13 +71,15 @@
             "consumable": {
                 "Bandaid": {
                     "name": "Bandaid",
-                    "type": "Heal",
-                    "modifier": 10
+                    "type": "hp",
+                    "modifier": 10,
+                    "weight": 10
                 },
                 "Sharpening_stone": {
                     "name": "Sharpening stone",
-                    "type": "Dmg_incres",
-                    "modifier": 10
+                    "type": "dmg",
+                    "modifier": 10,
+                    "weight": 10
 
                 }
             }
