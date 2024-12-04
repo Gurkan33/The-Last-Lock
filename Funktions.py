@@ -215,7 +215,7 @@ def player_Manager():
         print(player)
         print("""\n\n What do you want to do?
     [1] Equip an item
-    [2] Delet an item
+    [2] Delete an item
     [3] Use Utilite
     [4] Nothing""")
         chosen_rout = input(simple_colors.blue("-->",["bold"]))
