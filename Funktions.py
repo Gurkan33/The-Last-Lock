@@ -659,8 +659,9 @@ def Fourth_door():
         if hit_result == 1:
             player.hp = player.hp - dmg_enemy
             if player.hp <= 0:
+                print(simple_colors.red(ASCII.text("Defeat")))
                 print(f"""You died, and lost all your stuff!""")
-                exit() #-------------------------------------------------------------#Dödar programmet!----------------------------------
+                exit() #-------------------------------------------------------------#Dödar programmet!
             else:
                 print(f"""The {simple_colors.red(boss.name)} hit you with a {eval(rareties[boss.weapon.rarity]["name_print"])} {simple_colors.black(boss.weapon.name)}
     and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 

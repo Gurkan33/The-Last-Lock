@@ -42,8 +42,9 @@ print(simple_colors.red("""What do you want to do?."""))
 
 while True:
     if Funktions.player.hp <= 0:
-        print(simple_colors.red("Du förlorade! :(",["bold","underlined"]))
-        break
+        print(simple_colors.red(ASCII.text("Defeat")))
+        print(f"""You died, and lost all your stuff!""")
+        exit() #-------------------------------------------------------------#Dödar programmet!
     elif Funktions.player.level > 10:
         #spelare får nyckel!
         print("")
