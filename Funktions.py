@@ -301,19 +301,19 @@ def player_Manager():
 
                     if item_used.type == "hp":
                         player.hp += item_used.modifier
-                        print(f"Player hp is now +{10}")
+                        print(f"Player hp is now +{item_used.modifier}")
 
                     elif item_used.type == "dmg":
                         player.equiped.dmg += item_used.modifier
-                        print(f"Player equiped item is now +{10} dmg")
+                        print(f"Player equiped item is now +{item_used.modifier} dmg")
 
                     elif item_used.type == "speed":
-                        player.hp += item_used.modifier
-                        print(f"Player speed is now +{10}")
+                        player.speed += item_used.modifier
+                        print(f"Player speed is now +{item_used.modifier}")
 
                     elif item_used.type == "accuracy":
-                        player.hp += item_used.modifier
-                        print(f"Player accuracy is now +{10}")
+                        player.accuracy += item_used.modifier
+                        print(f"Player accuracy is now +{item_used.modifier}")
                         
                     
                     break
