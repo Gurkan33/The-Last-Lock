@@ -81,6 +81,20 @@
                     "modifier": 10,
                     "weight": 10
 
+                },
+                "Chocolate bar": {
+                    "name": "Chocolate bar",
+                    "type": "speed",
+                    "modifier": 10,
+                    "weight": 10
+
+                },
+                "Glasses": {
+                    "name": "Glasses",
+                    "type": "accuracy",
+                    "modifier": 5,
+                    "weight": 10
+
                 }
             }
         }

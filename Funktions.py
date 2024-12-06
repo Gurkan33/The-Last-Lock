@@ -51,8 +51,8 @@ class item_weapon_class:
         self.dmg = dmg
     
     def __str__(self):
-        return f"""  {eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
-  dmg: {simple_colors.red("+" + str(self.dmg))}"""
+        return f"""{eval(rareties[self.rarity]["name_print"])} {simple_colors.black(self.name)} 
+dmg: {simple_colors.red("+" + str(self.dmg))}"""
 
 
 
@@ -68,20 +68,20 @@ class item_consumable_class:
         self.modifier = items_consumables[item]["modifier"]
     def __str__(self):
         if self.type == "hp":
-            return f"""  {simple_colors.black(self.name)} 
-  +{simple_colors.green(self.modifier)} {simple_colors.green(self.type)}
+            return f"""{simple_colors.black(self.name)} 
++{simple_colors.green(self.modifier)} {simple_colors.green(self.type)}
 """
         elif self.type == "dmg":
-            return f"""  {simple_colors.black(self.name)} 
-  +{simple_colors.red(self.modifier)} {simple_colors.red(self.type)}
+            return f"""{simple_colors.black(self.name)} 
++{simple_colors.red(self.modifier)} {simple_colors.red(self.type)}
 """
         elif self.type == "speed":
             return f"""{simple_colors.black(self.name)} 
-  +{self.modifier} {self.type}
++{self.modifier} {self.type}
 """
         elif self.type == "accuracy":
             return f"""{simple_colors.black(self.name)} 
-  +{self.modifier} {self.type}
++{self.modifier} {self.type}
 """
 
 #------------------------------------------------------#
@@ -92,6 +92,8 @@ def generate_item_consumables():
     consumable = rand.choices(list(items_consumables), weights = items_consumables_weight, k = 1)[0]
     
     return item_consumable_class(consumable)
+
+
 
 def generate_item_weapon():
 
@@ -125,7 +127,7 @@ class player_class:
     def __init__(self):
         self.name = ""
         self.difficulty = cons.difficulty
-        self.equiped = item_weapon_class(list(items_weapons)[0], rareties[list(rareties)[-1]]["name"], 3)
+        self.equiped = item_weapon_class(list(items_weapons)[0], rareties[list(rareties)[-1]]["name"], cons.player_starter_weapon_dmg)
         self.inventory_weapons = []
         self.inventory_utilities = []
         self.hp = cons.max_hp
@@ -153,7 +155,7 @@ hp: {simple_colors.green(self.hp)}
 Total dmg: {simple_colors.red(self.total_dmg())}
 
 Equipped item: 
-{self.equiped}
+  {self.equiped}
 
 Inventory: 
 {"\n".join(f"{index + 1}.\n{item_class}" for index, item_class in enumerate(self.inventory_weapons))}
@@ -164,10 +166,6 @@ Utilities:
         return name_print
 
 player = player_class()
-
-for i in range(1, 5):
-    item = generate_item_weapon()
-    player.inventory_weapons.append(item)
 
 #------------------------------------------------------# 
 #Enemy
@@ -271,7 +269,6 @@ def player_Manager():
                     elif chosen_item_index > len(player.inventory_weapons):
                         print(simple_colors.red("You removed ") + str(player.inventory_utilities.pop(chosen_item_index - len(player.inventory_weapons) - 1)) + simple_colors.red(" from your inventory\n"))
                     
-                    
                     for i in range(0, len(player.inventory_weapons)):
                         print(f"{i+1}. \n{player.inventory_weapons[i]}")
 
@@ -328,34 +325,36 @@ def player_Manager():
 def chooseDoor():
     os.system('cls')
 
-    print(ASCII.text("DOORS"))
+    while True:
 
-    print(f"""Which door do you want to open?
+        print(ASCII.text("DOORS"))
+
+        print(f"""Which door do you want to open?
 [1] Door 1
 [2] Door 2
 [3] Door 3
 [4] {simple_colors.blue("Door 4",["italic"])}
-          
+        
 [5] Go back""")
-    
-    chosen_rout = input(simple_colors.blue("-->",["bold"]))
+        
+        chosen_rout = input(simple_colors.blue("-->",["bold"]))
 
-    if SystemFunktions.valid_user_choice(chosen_rout, 5, "multiChoice"):
-        if chosen_rout == "1":
-            door_randomizer()
-        elif chosen_rout == "2":
-            door_randomizer()
-        elif chosen_rout == "3":
-            door_randomizer()
-        elif chosen_rout == "4":
-            if player.door_key == True:
-                Fourth_door()
-            else:
-                print(simple_colors.red("\nYou dont have the key\n",["bold"]))
-                time.sleep(1)
-        elif chosen_rout == "5":
-            ""
-            #Exit  
+        if SystemFunktions.valid_user_choice(chosen_rout, 5, "multiChoice"):
+            if chosen_rout in ["1", "2", "3"]:
+                door_randomizer()
+                break
+
+            elif chosen_rout == "4":
+                if player.door_key == True:
+                    Fourth_door()
+                    break
+
+                else:
+                    print(simple_colors.red("\nYou dont have the key\n",["bold"]))
+                    time.sleep(1)
+            elif chosen_rout == "5":
+                break
+                #Exit  
 
 #--------------------------------------------------------------------------------#       
 #Funktion för att välja typ av rum
@@ -364,10 +363,13 @@ def door_randomizer():
     random_num = rand.choices([1, 2, 3], [cons.door_trap, cons.door_chest, cons.door_enemy], k = 1)[0]
 
     if random_num == 1:
+        cons.door_trap = cons.door_trap/1.1
         Trap()
     elif random_num == 2:
+        cons.door_chest = cons.door_chest/1.1
         Chest()
     elif random_num == 3:
+        cons.door_enemy = cons.door_enemy/1.1
         Encounter()
 
 #--------------------------------------------------------------------------------#
@@ -379,15 +381,15 @@ def Trap():
     random_Trap = rand.choices([1, 2, 3], [cons.trap1_weight, cons.trap2_weight, cons.trap3_weight], k = 1)[0]
 
     if random_Trap == 1:
-        print(simple_colors.red(""" Ouch!
-        You stepped on nails and lost 10hp!"""))
-        player.hp = player.hp-10
+        print(simple_colors.red(f""" Ouch!
+        You stepped on nails and lost {cons.trap1_dmg}hp!"""))
+        player.hp = player.hp-cons.trap1_dmg
         print("\nYour health is now " + simple_colors.red(str(player.hp),["bold"]) + " hp")
 
     elif random_Trap == 2:
-        print(simple_colors.red("""Life's tough in prison
-        You got in a fight and lost 20hp!"""))
-        player.hp = player.hp-20
+        print(simple_colors.red(f"""Life's tough in prison
+        You got in a fight and lost {cons.trap2_dmg}hp!"""))
+        player.hp = player.hp-cons.trap2_dmg
         print("\nYour health is now " + simple_colors.red(str(player.hp),["bold"]) + " hp")
 
     elif random_Trap == 3:
@@ -398,9 +400,9 @@ def Trap():
             if random_invetory_index <= len(player.inventory_weapons):
                 item_index_lost_by_trap = random_invetory_index
                 item_lost_by_trap = player.inventory_weapons.pop(item_index_lost_by_trap)
-
+                
             elif random_invetory_index > len(player.inventory_weapons):
-                item_index_lost_by_trap = player.total_inventory_len - player.inventory_weapons
+                item_index_lost_by_trap = player.total_inventory_len() - len(player.inventory_weapons)
                 item_lost_by_trap = player.inventory_utilities.pop(item_index_lost_by_trap)
 
             print(simple_colors.red(f"""Where is my weapon?
@@ -516,23 +518,26 @@ def Encounter():
     print(simple_colors.red(f"""Ohh you enountered a {eval(enemies[enemy.key]["name_print"])}
     """) + simple_colors.red("Take him down to move forward in the prison!"))
 
-    print(enemy)
 
-    print(ASCII.text("vs"))
 
-    print(f"""Name: {player.name}
+    while True:
+        print(enemy)
+
+        print(ASCII.text("vs"))
+
+        print(f"""Name: {player.name}
 Equiped: {player.equiped}
 Dmg: {player.total_dmg()}
 Hp: {player.hp}""")
-
-    while True:
+        
         print("""\nWhat do you wish to do?
 [1] Fight
 [2] Flee
+[3] Manage inventory            
 """)
         
         chosen_input = input(simple_colors.blue("-->",["bold"]))
-        if SystemFunktions.valid_user_choice(chosen_input, 2, "multiChoice"):
+        if SystemFunktions.valid_user_choice(chosen_input, 3, "multiChoice"):
             if(chosen_input == "2"):
                 flee_result = rand.choices([1, 2], [player.speed, enemy.speed], k = 1)[0]
 
@@ -541,16 +546,36 @@ Hp: {player.hp}""")
                     break
                 elif flee_result == 2:
                     print(simple_colors.red("You didn't manage to flee, you need to fight your way out of this!", ["bold"]))
+
+                    time.sleep(1)
+                    
+                    hit_result = rand.choices([1, 2], [enemy.accuracy, player.speed], k = 1)[0]
+
+                    if hit_result == 1:
+                        player.hp = player.hp - enemy.weapon.dmg
+                        if player.hp <= 0: # Kollar ifall spelaren dog
+                            print(simple_colors.red(ASCII.text("Defeat")))
+                            print(f"""You died, and lost all your stuff!""")
+                            exit() #-------------------------------------------------------------#Dödar programmet!
+                        else:
+                            print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {eval(rareties[enemy.weapon.rarity]["name_print"])} {simple_colors.black(enemy.weapon.name)}
+    and did {simple_colors.red(f"{enemy.weapon.dmg} dmg",["bold"])}. 
+    Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
+    """)                
+                    else:
+                        print(simple_colors.red(f"The {eval(enemies[enemy.key]["name_print"])} missed his strike!\n",["bold"]))
+            elif chosen_input == "3":
+                player_Manager()
             else:
                     
                 time.sleep(1)
 
-                dmg_player = player.total_dmg()
+                
                 
                 hit_result = rand.choices([1, 2], [player.accuracy, enemy.speed], k = 1)[0]
                 
                 if hit_result == 1:
-                    enemy.hp = enemy.hp - dmg_player
+                    enemy.hp = enemy.hp - player.total_dmg()
                     if enemy.hp <= 0: # Kollar ifall fienden dog
                         print(f"""\nYes! You took down the {eval(enemies[enemy.key]["name_print"])}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.""")
                         player.level += 1
@@ -560,7 +585,7 @@ Hp: {player.hp}""")
 Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key to the {simple_colors.blue("fourth door!",["italic"])}""",["bold"]))
                         break
                     print(f"""You hit the {eval(enemies[enemy.key]["name_print"])} with your {eval(rareties[player.equiped.rarity]["name_print"])} {simple_colors.black(player.equiped.name)}
-    and did {simple_colors.red(f"{dmg_player} dmg")}. 
+    and did {simple_colors.red(f"{player.total_dmg()} dmg")}. 
     The enemy hp is now : {simple_colors.green(f"{enemy.hp}hp")}
 """)
                 else:
@@ -569,19 +594,18 @@ Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key
 
                 time.sleep(1)
 
-                dmg_enemy = enemy.weapon.dmg
                 
                 hit_result = rand.choices([1, 2], [enemy.accuracy, player.speed], k = 1)[0]
 
                 if hit_result == 1:
-                    player.hp = player.hp - dmg_enemy
+                    player.hp = player.hp - enemy.weapon.dmg
                     if player.hp <= 0: # Kollar ifall spelaren dog
                         print(simple_colors.red(ASCII.text("Defeat")))
                         print(f"""You died, and lost all your stuff!""")
                         exit() #-------------------------------------------------------------#Dödar programmet!
                     else:
                         print(f"""The {eval(enemies[enemy.key]["name_print"])} hit you with a {eval(rareties[enemy.weapon.rarity]["name_print"])} {simple_colors.black(enemy.weapon.name)}
-    and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
+    and did {simple_colors.red(f"{enemy.weapon.dmg} dmg",["bold"])}. 
     Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
     """)                
                 else:
@@ -601,9 +625,6 @@ def Fourth_door():
     boss.name = cons.boss_name
     #-----------------------------------
 
-
-
-
     print(simple_colors.blue(ASCII.text("DOOR 4")))
     print(simple_colors.red(f"""You have entered the {simple_colors.blue("fourth door",["italic"])} {simple_colors.red("""!
     Here you will face the last obstacle before escaping the prison!""")}
@@ -619,32 +640,29 @@ def Fourth_door():
         chosen_rout = input(simple_colors.blue("-->",["bold"]))
         if SystemFunktions.valid_user_choice(chosen_rout, 2, "multiChoice") == True:
             if chosen_rout == "1":
-                player_Manager()
-                
+                player_Manager() 
 
             elif chosen_rout == "2":
                 i = False
     
     while True:
         time.sleep(1)
-
-        dmg_player = player.total_dmg()
                     
         hit_result = rand.choices([1, 2], [player.accuracy, boss.speed], k = 1)[0]
                     
         if hit_result == 1:
-            boss.hp = boss.hp - dmg_player
+            boss.hp = boss.hp - player.total_dmg()
             if boss.hp <= 0: #------------------------------------YOU WIN THE GAME!----------------------------------------
                 print(f"""Yes! You took down the {simple_colors.red(boss.name)}! And left you at  {simple_colors.green(f"{player.hp}hp",["bold"])}.
-                      now your on free foot!""")
+now your on free foot!""")
                 
                 print(TextOchGubbar.player_walk)
             
                 exit() #-------------------------------------------------------------#Dödar programmet!----------------------------------
             else:
                 print(f"""You hit the {simple_colors.red(boss.name)} with your {eval(rareties[player.equiped.rarity]["name_print"])} {simple_colors.black(player.equiped.name)}
-    and did {simple_colors.red(f"{dmg_player} dmg")}. 
-    The enemy hp is now : {simple_colors.green(f"{boss.hp}hp")}
+and did {simple_colors.red(f"{player.total_dmg()} dmg")}. 
+The enemy hp is now : {simple_colors.green(f"{boss.hp}hp")}
         """)
         else:
             print(simple_colors.red("You missed your strike!\n",["bold"]))
@@ -652,26 +670,30 @@ def Fourth_door():
 
         time.sleep(1)
 
-        dmg_enemy = boss.weapon.dmg
                     
         hit_result = rand.choices([1, 2], [boss.accuracy, player.speed], k = 1)[0]
 
         if hit_result == 1:
-            player.hp = player.hp - dmg_enemy
+            player.hp = player.hp - boss.weapon.dmg
             if player.hp <= 0:
                 print(simple_colors.red(ASCII.text("Defeat")))
                 print(f"""You died, and lost all your stuff!""")
                 exit() #-------------------------------------------------------------#Dödar programmet!
             else:
                 print(f"""The {simple_colors.red(boss.name)} hit you with a {eval(rareties[boss.weapon.rarity]["name_print"])} {simple_colors.black(boss.weapon.name)}
-    and did {simple_colors.red(f"{dmg_enemy} dmg",["bold"])}. 
-    Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
+and did {simple_colors.red(f"{boss.weapon.dmg} dmg",["bold"])}. 
+Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
         """)                
         else:
             print(simple_colors.red(f"The Enemy missed his strike!\n",["bold"]))
 
-        
-#F
+
+
+# for i in range(1, 5):
+#     item = generate_item_weapon()
+#     player.inventory_weapons.append(item)
+
+#Fourth_door()
 
 # Trap()
 
