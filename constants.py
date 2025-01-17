@@ -17,7 +17,7 @@ trap2_dmg = 8
 
 trap3_weight = 1
 
-door_trap = 100
+door_trap = 80
 door_chest = 100
 door_enemy = 100
 
