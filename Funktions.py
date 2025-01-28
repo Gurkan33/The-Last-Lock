@@ -171,14 +171,20 @@ player = player_class()
 #Enemy
 
 class enemy_class:
-    def __init__(self, enemy_key, enemy_weapon):
-        self.key = enemy_key
-        self.name = enemies[enemy_key]["name"]
+    def __init__(self, enemy_key = None, enemy_weapon = None):
         self.difficulty = cons.difficulty
         self.weapon = enemy_weapon #Kanske en item? Eller custom item?
-        self.hp = enemies[enemy_key]["base_hp"]
-        self.speed = enemies[enemy_key]["speed"]
-        self.accuracy = enemies[enemy_key]["accuracy"]
+
+
+
+        if enemy_key == None:
+            ""
+        else:
+            self.key = enemy_key
+            self.name = enemies[enemy_key]["name"]
+            self.hp = enemies[enemy_key]["base_hp"]
+            self.speed = enemies[enemy_key]["speed"]
+            self.accuracy = enemies[enemy_key]["accuracy"]
     
     def total_dmg(self):
         return int(self.weapon.dmg + cons.enemy_base_dmg_per_level[self.level-1])
@@ -616,7 +622,7 @@ Ohh you found a {simple_colors.yellow("key", ["bold"])} !, this might be the key
 def Fourth_door():
 
     #----------------------------------- skapar boss enemy
-    boss = enemy_class
+    boss = enemy_class(None, item_weapon_class(list(items_weapons)[7], rareties[list(rareties)[-2]]["name"], cons.boss_dmg))
 
     boss.hp = cons.boss_hp
     boss.weapon = item_weapon_class(list(items_weapons)[7], rareties[list(rareties)[-2]]["name"], cons.boss_dmg) # ändra bossens startvapen
@@ -628,8 +634,8 @@ def Fourth_door():
     print(simple_colors.blue(ASCII.text("DOOR 4")))
     print(simple_colors.red(f"""You have entered the {simple_colors.blue("fourth door",["italic"])} {simple_colors.red("""!
     Here you will face the last obstacle before escaping the prison!""")}
-                            
-                            """))
+
+"""))
     i = True
     while i == True: #En sista chas att kolla inventoryt
         print(f"""\nChose what you wish to do!
@@ -687,7 +693,7 @@ Your hp is now : {simple_colors.green(f"{player.hp}hp",["bold"])}
         else:
             print(simple_colors.red(f"The Enemy missed his strike!\n",["bold"]))
 
-
+Fourth_door()
 
 # for i in range(1, 5):
 #     item = generate_item_weapon()
